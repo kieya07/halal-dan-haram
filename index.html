@@ -3,634 +3,368 @@
 <html lang="id">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Petualangan Halal dan Haram | Materi PAI</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Halal Quest - Petualangan PAI</title>
 <style>
-:root {
-  --navy:#24345c;
-  --purple:#7656c9;
-  --yellow:#ffcf56;
-  --pink:#ffe8ed;
-  --cream:#fffaf0;
-  --green:#4e9b76;
-  --text:#30334a;
-}
-* { box-sizing:border-box; }
-html { scroll-behavior:smooth; }
-body {
-  margin:0;
-  font-family: "Trebuchet MS", Arial, sans-serif;
-  background:var(--cream);
-  color:var(--text);
-  line-height:1.7;
-}
-button, a { font:inherit; }
-button { cursor:pointer; }
-nav {
-  position:sticky; top:0; z-index:10;
-  display:flex; justify-content:space-between; align-items:center;
-  gap:12px; flex-wrap:wrap;
-  padding:13px 6%;
-  background:#fff; box-shadow:0 3px 18px #24345c12;
-}
-.logo { font-size:18px; font-weight:900; color:var(--navy); }
-nav a {
-  color:var(--navy); text-decoration:none; font-weight:bold;
-  font-size:13px; margin:4px 7px;
-}
-.hero {
-  padding:65px 7% 55px;
-  background:linear-gradient(130deg,#e9e4ff,#fff0d2 60%,#ffe5ec);
-  display:grid; grid-template-columns:1.1fr .9fr;
-  align-items:center; gap:30px;
-}
-.eyebrow {
-  display:inline-block; background:#fff; color:var(--purple);
-  border-radius:30px; padding:6px 14px; font-size:13px; font-weight:bold;
-}
-h1 { color:var(--navy); font-size:clamp(34px,5vw,58px); line-height:1.13; margin:17px 0; }
-h2 { color:var(--navy); font-size:clamp(25px,3vw,36px); line-height:1.25; }
-h3 { color:var(--navy); margin-top:8px; }
-.hero p { font-size:17px; }
-.hero img {
-  width:100%; height:340px; object-fit:cover;
-  border-radius:35px; border:8px solid white;
-  box-shadow:0 15px 35px #4c397329;
-}
-.btn {
-  display:inline-block; border:0; border-radius:14px;
-  padding:12px 20px; font-weight:bold; text-decoration:none;
-  background:var(--purple); color:white; margin:5px 5px 5px 0;
-}
-.btn.yellow { background:var(--yellow); color:var(--navy); }
-.btn.green { background:var(--green); }
-section { padding:55px 7%; scroll-margin-top:80px; }
-.section-intro { max-width:760px; margin-bottom:25px; }
-.tag { color:var(--purple); font-weight:bold; font-size:13px; letter-spacing:1px; }
-.grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:20px; }
-.card {
-  background:white; border:1px solid #ece8f6;
-  border-radius:22px; padding:19px;
-  box-shadow:0 8px 25px #24345c0a;
-}
-.card img {
-  width:100%; height:185px; object-fit:cover;
-  border-radius:15px; display:block;
-}
-.card p { margin-bottom:8px; }
-.card .emoji { font-size:38px; }
-.soft-purple { background:#f0edff; }
-.soft-yellow { background:#fff3cf; }
-.soft-pink { background:#ffedf0; }
-.soft-green { background:#e7f6ed; }
-.info {
-  padding:22px; border-radius:20px; background:white;
-  border-left:6px solid var(--yellow); margin:20px 0;
-}
-.verse {
-  background:var(--navy); color:white; padding:27px;
-  border-radius:24px; margin:25px 0;
-}
-.verse h3 { color:var(--yellow); }
-.verse strong { color:#fff0b3; }
-.steps { display:grid; grid-template-columns:repeat(4,1fr); gap:12px; }
-.step {
-  background:white; border-radius:18px; padding:18px;
-  text-align:center; border:1px solid #ece8f6;
-}
-.step .emoji { font-size:34px; }
-.filter-row { display:flex; gap:8px; flex-wrap:wrap; margin:20px 0; }
-.filter {
-  border:1px solid #dcd4f3; background:white; color:var(--navy);
-  border-radius:25px; padding:9px 15px; font-weight:bold;
-}
-.filter.active { background:var(--purple); color:white; }
-.food-card { cursor:pointer; transition:.2s; }
-.food-card:hover { transform:translateY(-4px); }
-.food-card:focus { outline:3px solid var(--yellow); }
-.answer-detail {
-  background:#fff3cf; padding:16px; border-radius:16px;
-  margin-top:16px; display:none;
-}
-.quiz-box {
-  background:white; border-radius:25px; padding:25px;
-  max-width:800px; box-shadow:0 10px 30px #24345c12;
-}
-.progress { height:10px; background:#eee9fb; border-radius:20px; overflow:hidden; }
-#progressBar { height:100%; width:0%; background:var(--green); transition:.3s; }
-.option {
-  display:block; width:100%; text-align:left;
-  background:#faf9ff; border:2px solid #e8e2f8;
-  border-radius:14px; padding:13px 16px; margin:10px 0;
-  color:var(--text);
-}
-.option:hover { border-color:var(--purple); background:#f0edff; }
-.option:disabled { cursor:default; opacity:1; }
-#feedback { font-weight:bold; margin:15px 0; }
-footer { background:var(--navy); color:white; padding:35px 7%; text-align:center; }
-footer p { max-width:700px; margin:8px auto; }
-.small { font-size:13px; opacity:.85; }
-@media(max-width:800px) {
-  .hero { grid-template-columns:1fr; padding-top:40px; }
-  .hero img { height:260px; }
-  .grid { grid-template-columns:repeat(2,minmax(0,1fr)); }
-  .steps { grid-template-columns:repeat(2,1fr); }
-  nav { justify-content:center; }
-}
-@media(max-width:520px) {
-  section { padding:38px 5%; }
-  .grid { grid-template-columns:1fr; }
-  .card img { height:220px; }
-  .hero { padding:38px 5%; }
-  nav a { font-size:12px; margin:3px; }
+*{box-sizing:border-box}
+:root{--ink:#29335c;--purple:#7657d5;--gold:#ffce57;--green:#43ad82;--pink:#ff7f9d}
+body{margin:0;font-family:system-ui,Arial,sans-serif;background:#e8e7ff;color:var(--ink)}
+button{font:inherit;cursor:pointer}
+button:focus-visible{outline:4px solid #ffce57}
+.top{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:12px 5%;background:#fff;box-shadow:0 4px 15px #29335c15;position:sticky;top:0;z-index:5}
+.brand{font-weight:1000;font-size:19px}
+.stats{display:flex;gap:8px;flex-wrap:wrap}
+.pill{background:#f0edff;padding:7px 12px;border-radius:30px;font-weight:800;font-size:13px}
+#app{max-width:1050px;margin:auto;padding:22px}
+.screen{display:none;animation:appear .35s ease}
+.screen.active{display:block}
+@keyframes appear{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+.hero{background:linear-gradient(130deg,#7057d4,#a28af5 60%,#ffd778);border-radius:28px;padding:30px;color:white;display:grid;grid-template-columns:1fr 1fr;align-items:center;gap:15px;overflow:hidden}
+.hero h1{font-size:clamp(34px,6vw,57px);line-height:1.05;margin:10px 0}
+.hero p{font-size:16px}
+.hero img{width:100%;height:245px;object-fit:cover;border:5px solid white;border-radius:24px;transform:rotate(2deg)}
+.btn{border:0;border-radius:15px;background:var(--gold);color:#3b315f;font-weight:900;padding:13px 19px;box-shadow:0 4px 0 #d6a83d}
+.btn:active{transform:translateY(3px);box-shadow:none}
+.btn.purple{background:var(--purple);color:white;box-shadow:0 4px 0 #5037a5}
+.btn.green{background:var(--green);color:white;box-shadow:0 4px 0 #278260}
+.btn.light{background:white;box-shadow:0 4px 0 #d8d5ed}
+.section-title{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin:25px 0 12px}
+.section-title h2{margin:0}
+.map{padding:20px;border-radius:25px;background:#fff;border:3px solid #d8d0ff}
+.map-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.level{border:0;border-radius:20px;padding:14px 7px;min-height:145px;background:#f1edff;color:var(--ink);font-weight:900;position:relative;transition:.2s}
+.level:hover:not(:disabled){transform:translateY(-5px)}
+.level .emoji{font-size:44px;display:block}
+.level small{display:block;font-size:12px;margin-top:5px}
+.level:disabled{filter:grayscale(.8);opacity:.55;cursor:not-allowed}
+.level.done{background:#fff0b9;outline:3px solid #ffcf56}
+.level.current{background:#ddf9ed;outline:3px solid #43ad82}
+.tip{background:#fff5d5;border-radius:17px;padding:15px;margin-top:15px}
+.gamebox{background:white;border-radius:26px;padding:clamp(16px,4vw,30px);box-shadow:0 12px 35px #29335c12}
+.gamehead{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap}
+.track{height:10px;background:#eeebfa;border-radius:30px;overflow:hidden;margin:15px 0 20px}
+#bar{height:100%;width:0;background:linear-gradient(90deg,#43ad82,#b3e75d);transition:.4s}
+.scene{background:linear-gradient(145deg,#f2edff,#e3f8ef);border-radius:22px;padding:20px;text-align:center}
+.scene .big{font-size:65px;line-height:1.2}
+.scene img{width:100%;max-width:400px;height:155px;object-fit:cover;border-radius:17px;margin:8px auto}
+#prompt{font-size:23px;line-height:1.35;margin:10px 0}
+#desc{margin:8px 0}
+.answers{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:18px}
+.answer{border:2px solid #e6e0f7;border-radius:18px;padding:14px;background:#fbfaff;color:var(--ink);font-weight:800;text-align:left;min-height:74px;transition:.2s}
+.answer:hover:not(:disabled){background:#f0edff;border-color:var(--purple);transform:translateY(-2px)}
+.answer.correct{background:#ddf8e9;border-color:#43ad82}
+.answer.wrong{background:#ffe5e9;border-color:#ff7f9d}
+.feedback{display:none;margin-top:15px;border-radius:15px;padding:13px;font-weight:750}
+.feedback.show{display:block}
+.feedback.good{background:#e0f8e9;color:#206647}
+.feedback.bad{background:#ffe9ec;color:#8c3048}
+.actionrow{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-top:18px}
+.character{font-size:27px}
+.reward{text-align:center;background:linear-gradient(140deg,#fff3c7,#ffe3ec);border-radius:25px;padding:28px}
+.reward .big{font-size:75px}
+footer{text-align:center;padding:25px 10px;color:#646888;font-size:12px}
+.hidden{display:none!important}
+.shake{animation:shake .25s}
+@keyframes shake{25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}
+@media(max-width:650px){
+ #app{padding:12px}
+ .hero{grid-template-columns:1fr;padding:23px}
+ .hero img{height:180px;transform:none}
+ .map-grid{grid-template-columns:repeat(2,1fr)}
+ .answers{grid-template-columns:1fr}
+ .top{padding:10px 3%}
+ .brand{font-size:15px}
+ .pill{font-size:11px;padding:6px 8px}
+ #prompt{font-size:20px}
 }
 </style>
 </head>
 <body>
 
-<nav>
-  <div class="logo">🧭 PAI Adventure</div>
-  <div>
-    <a href="#tujuan">Tujuan</a>
-    <a href="#materi">Materi</a>
-    <a href="#galeri">Galeri</a>
-    <a href="#kuis">Kuis</a>
+<header class="top">
+  <div class="brand">🧭 HALAL QUEST</div>
+  <div class="stats">
+    <div class="pill">⭐ <span id="totalScore">0</span></div>
+    <div class="pill">❤️ <span id="lives">3</span></div>
+    <div class="pill">🏆 <span id="badgeCount">0</span>/3</div>
   </div>
-</nav>
-
-<header class="hero">
-  <div>
-    <span class="eyebrow">✨ Petualangan PAI · Kelas 4–6</span>
-    <h1>Yuk, Jadi Penjelajah <span style="color:#7656c9">Halal!</span></h1>
-    <p>
-      Ayo belajar mengenali makanan dan perbuatan yang halal dan haram.
-      Jadilah penjelajah cerdas yang teliti, jujur, dan bertanggung jawab!
-    </p>
-    <a class="btn" href="#materi">🚀 Mulai Petualangan</a>
-    <a class="btn yellow" href="#kuis">🎯 Coba Kuis</a>
-  </div>
-  <img
-    src="https://images.unsplash.com/photo-1490645935967-10de6ba17061?auto=format&fit=crop&w=1000&q=85"
-    alt="Beragam makanan segar dan sehat di atas meja"
-  >
 </header>
 
-<section id="tujuan">
-  <div class="section-intro">
-    <span class="tag">MISI PETUALANGAN</span>
-    <h2>🎒 Apa yang Akan Kita Pelajari?</h2>
-    <p>Setelah belajar, kamu diharapkan bisa:</p>
-  </div>
-  <div class="grid">
-    <article class="card soft-purple">
-      <div class="emoji">📖</div>
-      <h3>Memahami Pengertian</h3>
-      <p>Menjelaskan arti halal dan haram dengan bahasa sendiri.</p>
-    </article>
-    <article class="card soft-yellow">
-      <div class="emoji">🔎</div>
-      <h3>Mengenali Contoh</h3>
-      <p>Membedakan contoh yang halal dan haram dalam kehidupan sehari-hari.</p>
-    </article>
-    <article class="card soft-green">
-      <div class="emoji">🌟</div>
-      <h3>Memilih dengan Bijak</h3>
-      <p>Membiasakan diri memeriksa makanan dan memilih cara yang baik.</p>
-    </article>
-  </div>
-</section>
+<main id="app">
 
-<section id="materi" class="soft-purple">
-  <div class="section-intro">
-    <span class="tag">MISI 1</span>
-    <h2>📚 Kenali Halal dan Haram</h2>
-    <p>Dalam Islam, kita diajarkan untuk mengikuti aturan Allah Swt. dalam memilih makanan dan melakukan sesuatu.</p>
-  </div>
-  <div class="grid">
-    <article class="card">
-      <img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=800&q=80" alt="Salad sayuran berwarna-warni">
-      <h3>✅ Apa Itu Halal?</h3>
-      <p><strong>Halal</strong> berarti sesuatu yang diperbolehkan menurut ajaran Islam.</p>
-      <p>Contohnya buah-buahan, sayuran, dan makanan yang bahan serta prosesnya memenuhi ketentuan halal.</p>
-    </article>
-    <article class="card">
-      <img src="https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?auto=format&fit=crop&w=800&q=80" alt="Pizza dengan beragam topping">
-      <h3>⛔ Apa Itu Haram?</h3>
-      <p><strong>Haram</strong> berarti sesuatu yang dilarang menurut ajaran Islam.</p>
-      <p>Contohnya memakan daging babi atau meminum minuman yang memabukkan.</p>
-    </article>
-    <article class="card">
-      <img src="https://images.unsplash.com/photo-1498837167922-ddd27525d352?auto=format&fit=crop&w=800&q=80" alt="Bahan makanan segar yang disiapkan untuk memasak">
-      <h3>🤔 Bagaimana dengan yang Belum Jelas?</h3>
-      <p>Jangan asal menebak. Periksa bahan, label, dan informasi produk. Tanyakan kepada orang tua atau guru jika masih ragu.</p>
-    </article>
-  </div>
-  <div class="info">
-    💡 <strong>Ingat!</strong> Makanan yang terlihat enak atau bersih belum tentu otomatis halal. Bahan dan cara pengolahannya juga perlu diperhatikan.
-  </div>
-</section>
-
-<section>
-  <div class="section-intro">
-    <span class="tag">MISI 2</span>
-    <h2>📜 Apa Kata Al-Qur'an?</h2>
-    <p>Allah Swt. memerintahkan manusia untuk memilih makanan yang halal dan baik.</p>
-  </div>
-  <div class="verse">
-    <h3>Surah Al-Baqarah ayat 168</h3>
-    <p><strong>يَا أَيُّهَا النَّاسُ كُلُوا مِمَّا فِي الْأَرْضِ حَلَالًا طَيِّبًا</strong></p>
-    <p><em>Artinya:</em> “Wahai manusia! Makanlah dari (makanan) yang halal dan baik yang terdapat di bumi.”</p>
-    <p class="small">Sumber: Al-Qur'an, Surah Al-Baqarah [2]: 168, kutipan bagian awal ayat.</p>
-  </div>
-  <div class="grid">
-    <article class="card soft-yellow">
-      <div class="emoji">🥗</div>
-      <h3>Halal</h3>
-      <p>Diperbolehkan menurut ajaran Islam.</p>
-    </article>
-    <article class="card soft-green">
-      <div class="emoji">💚</div>
-      <h3>Baik (Thayyib)</h3>
-      <p>Baik, bersih, aman, dan bermanfaat bagi tubuh.</p>
-    </article>
-    <article class="card soft-pink">
-      <div class="emoji">🧠</div>
-      <h3>Teliti</h3>
-      <p>Perhatikan bahan, kebersihan, keamanan, dan cara mendapatkannya.</p>
-    </article>
-  </div>
-</section>
-
-<section id="galeri" class="soft-yellow">
-  <div class="section-intro">
-    <span class="tag">MISI 3</span>
-    <h2>🖼️ Galeri Penjelajah Halal</h2>
-    <p>Klik kartu untuk membaca penjelasan. Ingat, gambar hanya contoh; status suatu produk tetap bergantung pada bahan dan prosesnya.</p>
-  </div>
-
-  <div class="filter-row">
-    <button class="filter active" data-filter="semua">🌈 Semua</button>
-    <button class="filter" data-filter="halal">✅ Contoh Halal</button>
-    <button class="filter" data-filter="haram">⛔ Contoh Haram</button>
-    <button class="filter" data-filter="bijak">🔎 Sikap Bijak</button>
-  </div>
-
-  <div class="grid" id="foodGallery">
-    <article class="card food-card" data-type="halal" tabindex="0"
-      data-title="Buah-buahan"
-      data-detail="Buah seperti pisang, apel, dan jeruk pada dasarnya termasuk makanan halal. Pilih buah yang bersih dan layak dimakan.">
-      <img src="https://images.unsplash.com/photo-1610832958506-aa56368176cf?auto=format&fit=crop&w=800&q=80" alt="Aneka buah segar">
-      <h3>🍎 Buah-buahan</h3>
-      <p>Contoh makanan halal.</p>
-      <button class="btn">Lihat Penjelasan</button>
-    </article>
-
-    <article class="card food-card" data-type="halal" tabindex="0"
-      data-title="Sayuran"
-      data-detail="Sayuran seperti wortel, bayam, dan brokoli merupakan contoh bahan makanan halal. Cucilah sebelum diolah dan dimakan.">
-      <img src="https://images.unsplash.com/photo-1540420773420-3366772f4999?auto=format&fit=crop&w=800&q=80" alt="Aneka sayuran segar">
-      <h3>🥦 Sayuran</h3>
-      <p>Sehat dan bergizi.</p>
-      <button class="btn">Lihat Penjelasan</button>
-    </article>
-
-    <article class="card food-card" data-type="halal" tabindex="0"
-      data-title="Ikan"
-      data-detail="Ikan termasuk makanan yang halal menurut ketentuan Islam. Pastikan ikan segar, bersih, dan diolah dengan bahan yang halal.">
-      <img src="https://images.unsplash.com/photo-1510130387422-82bed34b37e9?auto=format&fit=crop&w=800&q=80" alt="Ikan segar">
-      <h3>🐟 Ikan</h3>
-      <p>Perhatikan kebersihan dan pengolahannya.</p>
-      <button class="btn">Lihat Penjelasan</button>
-    </article>
-
-    <article class="card food-card" data-type="bijak" tabindex="0"
-      data-title="Makanan kemasan"
-      data-detail="Periksa komposisi, tanggal kedaluwarsa, kondisi kemasan, serta informasi halal yang dapat dipercaya. Jika belum yakin, tanyakan kepada orang tua atau guru.">
-      <img src="https://images.unsplash.com/photo-1606787366850-de6330128bfc?auto=format&fit=crop&w=800&q=80" alt="Makanan yang disiapkan di dapur">
-      <h3>🔎 Makanan Kemasan</h3>
-      <p>Baca label sebelum membeli.</p>
-      <button class="btn">Lihat Penjelasan</button>
-    </article>
-
-    <article class="card food-card" data-type="haram" tabindex="0"
-      data-title="Daging Babi"
-      data-detail="Daging babi termasuk makanan yang diharamkan dalam Islam. Pelajari ketentuan ini dari Al-Qur'an dan penjelasan guru PAI.">
-      <img src="https://images.unsplash.com/photo-1607623814075-e51df1bdc82f?auto=format&fit=crop&w=800&q=80" alt="Daging mentah sebagai ilustrasi bahan makanan">
-      <h3>⛔ Daging Babi</h3>
-      <p>Salah satu contoh makanan yang diharamkan.</p>
-      <button class="btn">Lihat Penjelasan</button>
-    </article>
-
-    <article class="card food-card" data-type="haram" tabindex="0"
-      data-title="Minuman Memabukkan"
-      data-detail="Minuman yang memabukkan dilarang dalam Islam. Anak-anak harus menjauhinya dan tidak mencoba minuman yang tidak diketahui isinya.">
-      <img src="https://images.unsplash.com/photo-1513558161293-cdaf765edfd7?auto=format&fit=crop&w=800&q=80" alt="Aneka minuman dalam gelas, sebagai ilustrasi untuk membahas pentingnya mengetahui isi minuman">
-      <h3>⛔ Minuman Memabukkan</h3>
-      <p>Ketahui isi minuman dan jauhi yang dilarang.</p>
-      <button class="btn">Lihat Penjelasan</button>
-    </article>
-  </div>
-
-  <div class="answer-detail" id="galleryDetail" aria-live="polite">
-    <h3 id="detailTitle"></h3>
-    <p id="detailText"></p>
-  </div>
-  <p class="small">Catatan: foto merupakan ilustrasi. Jangan menentukan status halal suatu produk hanya dari tampilannya.</p>
-</section>
-
-<section>
-  <div class="section-intro">
-    <span class="tag">MISI 4</span>
-    <h2>🛒 Jadilah Pembeli Cerdas!</h2>
-    <p>Sebelum membeli makanan atau minuman, lakukan empat langkah sederhana berikut.</p>
-  </div>
-  <div class="steps">
-    <div class="step">
-      <div class="emoji">👀</div>
-      <h3>1. Amati</h3>
-      <p>Periksa kondisi kemasan dan makanan.</p>
+<!-- HALAMAN PEMBUKA -->
+<section id="home" class="screen active">
+  <div class="hero">
+    <div>
+      <div>✨ GAME PETUALANGAN PAI</div>
+      <h1>Jadilah<br>Penjelajah<br>Halal!</h1>
+      <p>Temukan petunjuk, selesaikan misi, kumpulkan bintang, dan buka gerbang harta karun!</p>
+      <button class="btn" onclick="showScreen('map')">MULAI PETUALANGAN ➜</button>
     </div>
-    <div class="step">
-      <div class="emoji">🏷️</div>
-      <h3>2. Baca</h3>
-      <p>Periksa komposisi, tanggal kedaluwarsa, dan label halal.</p>
+    <img src="https://images.unsplash.com/photo-1516627145497-ae6968895b74?auto=format&fit=crop&w=900&q=80" alt="Anak-anak belajar bersama">
+  </div>
+  <div class="section-title"><h2>🎮 Cara Bermain</h2></div>
+  <div class="map">
+    <p>🗺️ <b>1.</b> Pilih lokasi petualangan di peta.</p>
+    <p>🧩 <b>2.</b> Baca kasus dan pilih jawaban yang paling tepat.</p>
+    <p>⭐ <b>3.</b> Jawaban benar mendapat 10 poin.</p>
+    <p>🔑 <b>4.</b> Selesaikan tantangan untuk membuka lokasi selanjutnya.</p>
+    <p>❤️ <b>5.</b> Kamu punya 3 hati. Jawaban salah mengurangi 1 hati.</p>
+  </div>
+  <div class="tip">💡 <b>Tips:</b> Baca petunjuk dengan teliti. Jika ragu tentang suatu produk, periksa bahan dan tanyakan kepada orang yang memahami.</div>
+</section>
+
+<!-- PETA -->
+<section id="map" class="screen">
+  <div class="section-title">
+    <div><div>🗺️ PETA DUNIA</div><h2>Pilih Misi Petualangan</h2></div>
+    <button class="btn light" onclick="showScreen('home')">⌂ Beranda</button>
+  </div>
+  <div class="map">
+    <p>Setiap tempat menyimpan tantangan baru. Selesaikan misi untuk membuka jalan berikutnya!</p>
+    <div class="map-grid">
+      <button class="level current" id="level0" onclick="startLevel(0)">
+        <span class="emoji">🏡</span>Desa Penjelajah
+        <small>Level 1 · Kenali Halal</small>
+      </button>
+      <button class="level" id="level1" onclick="startLevel(1)" disabled>
+        <span class="emoji">🛒</span>Pasar Misteri
+        <small>Level 2 · Pilih Makanan</small>
+      </button>
+      <button class="level" id="level2" onclick="startLevel(2)" disabled>
+        <span class="emoji">🌳</span>Hutan Bijak
+        <small>Level 3 · Pecahkan Kasus</small>
+      </button>
     </div>
-    <div class="step">
-      <div class="emoji">🙋</div>
-      <h3>3. Bertanya</h3>
-      <p>Tanyakan kepada orang tua atau guru jika ragu.</p>
+  </div>
+  <div class="tip">🎯 Misi utama: belajar memilih yang halal dan baik, bersikap jujur, dan bertanggung jawab.</div>
+</section>
+
+<!-- PERMAINAN -->
+<section id="play" class="screen">
+  <div class="gamehead">
+    <button class="btn light" onclick="showScreen('map')">← Peta</button>
+    <b id="levelLabel">Level 1</b>
+    <span class="character" id="avatar">🧑‍🚀</span>
+  </div>
+  <div class="track"><div id="bar"></div></div>
+  <div class="gamebox">
+    <div class="scene">
+      <div class="big" id="sceneEmoji">🏡</div>
+      <img id="sceneImage" src="https://images.unsplash.com/photo-1490645935967-10de6ba17061?auto=format&fit=crop&w=800&q=80" alt="Ilustrasi lokasi misi">
+      <div id="missionTag">MISI 1</div>
+      <h2 id="prompt">Pertanyaan</h2>
+      <p id="desc">Pilih jawabanmu.</p>
     </div>
-    <div class="step">
-      <div class="emoji">✅</div>
-      <h3>4. Pilih</h3>
-      <p>Pilih makanan halal, baik, bersih, dan aman.</p>
+    <div class="answers" id="answers"></div>
+    <div class="feedback" id="feedback" aria-live="polite"></div>
+    <div class="actionrow">
+      <span id="questionNo">Tantangan 1</span>
+      <button id="nextBtn" class="btn green hidden" onclick="nextQuestion()">Lanjut ➜</button>
     </div>
   </div>
 </section>
 
-<section class="soft-green">
-  <div class="section-intro">
-    <span class="tag">MISI 5</span>
-    <h2>💡 Halal Bukan Hanya Makanan</h2>
-    <p>Dalam kehidupan sehari-hari, kita juga belajar melakukan hal-hal yang baik dan menghindari perbuatan yang dilarang.</p>
-  </div>
-  <div class="grid">
-    <article class="card">
-      <div class="emoji">🤝</div>
-      <h3>Berbuat Baik</h3>
-      <p>Membantu teman, berkata jujur, dan menghormati orang lain.</p>
-    </article>
-    <article class="card">
-      <div class="emoji">🚫</div>
-      <h3>Menjauhi Keburukan</h3>
-      <p>Tidak mencuri, menipu, atau mengambil barang milik teman tanpa izin.</p>
-    </article>
-    <article class="card">
-      <div class="emoji">💰</div>
-      <h3>Mendapatkan dengan Benar</h3>
-      <p>Menggunakan barang milik sendiri dan meminta izin jika ingin meminjam milik orang lain.</p>
-    </article>
+<!-- HADIAH LEVEL -->
+<section id="rewardScreen" class="screen">
+  <div class="reward">
+    <div class="big" id="rewardEmoji">🎉</div>
+    <h1 id="rewardTitle">Misi Selesai!</h1>
+    <p id="rewardText">Kamu berhasil.</p>
+    <h2 id="rewardScore">⭐ +30 poin</h2>
+    <button id="rewardBtn" class="btn purple" onclick="continueAfterReward()">Lanjutkan ➜</button>
   </div>
 </section>
 
-<section id="kuis">
-  <div class="section-intro">
-    <span class="tag">UJIAN PETUALANGAN</span>
-    <h2>🏆 Kuis Penjelajah Halal</h2>
-    <p>Jawab pertanyaan berikut. Setiap jawaban benar mendapat 10 poin. Yuk, kumpulkan poin sebanyak-banyaknya!</p>
-  </div>
-
-  <div class="quiz-box">
-    <div style="display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap">
-      <strong id="questionCount">Pertanyaan 1 dari 8</strong>
-      <strong>⭐ Skor: <span id="score">0</span></strong>
-    </div>
-    <div class="progress" style="margin:12px 0 20px">
-      <div id="progressBar"></div>
-    </div>
-    <div id="quizContent">
-      <h3 id="question">Memuat pertanyaan...</h3>
-      <div id="options"></div>
-      <p id="feedback" aria-live="polite"></p>
-      <button id="nextBtn" class="btn" style="display:none">Pertanyaan Berikutnya ➜</button>
-    </div>
-    <div id="result" style="display:none">
-      <h2>🎉 Petualangan Selesai!</h2>
-      <p id="resultMessage"></p>
-      <button class="btn" onclick="restartQuiz()">🔄 Main Lagi</button>
-      <a href="#materi" class="btn yellow">📚 Pelajari Lagi</a>
-    </div>
+<!-- GAME OVER -->
+<section id="gameOver" class="screen">
+  <div class="reward">
+    <div class="big">💪</div>
+    <h1>Jangan Menyerah!</h1>
+    <p>Petualang hebat selalu mau belajar lagi. Baca kembali petunjuknya dan coba sekali lagi.</p>
+    <button class="btn purple" onclick="restartGame()">🔄 Ulangi Permainan</button>
+    <button class="btn light" onclick="showScreen('map')">Kembali ke Peta</button>
   </div>
 </section>
 
-<section>
-  <div class="info">
-    <h3>🌟 Pesan Penjelajah</h3>
-    <p>
-      Seorang muslim berusaha memilih yang halal dan baik, bersikap jujur,
-      tidak mengambil hak orang lain, serta bertanya kepada orang yang memahami
-      agama ketika menemukan sesuatu yang belum jelas.
-    </p>
+<!-- KEMENANGAN -->
+<section id="victory" class="screen">
+  <div class="reward">
+    <div class="big">🏆</div>
+    <h1>Legenda Penjelajah Halal!</h1>
+    <p>Kamu berhasil menyelesaikan semua misi. Terus terapkan pelajaran ini dalam kehidupan sehari-hari.</p>
+    <h2>⭐ Skor akhir: <span id="finalScore">0</span></h2>
+    <p id="finalRank"></p>
+    <button class="btn purple" onclick="restartGame()">🔁 Main Lagi</button>
+    <button class="btn light" onclick="showScreen('home')">⌂ Beranda</button>
   </div>
 </section>
+</main>
 
-<footer>
-  <h2 style="color:#ffcf56">🧭 Misi Berhasil!</h2>
-  <p>Terus belajar, terus berbuat baik, dan jadilah penjelajah halal yang cerdas.</p>
-  <p class="small">Media pembelajaran Pendidikan Agama Islam · Halal dan Haram</p>
-  <p><a href="#top" style="color:#ffcf56">Kembali ke atas ↑</a></p>
-</footer>
+<footer>PAI Adventure · Belajar sambil bermain 🌟</footer>
 
 <script>
-// GALERI: filter kartu dan tampilkan penjelasan
-const filters = document.querySelectorAll(".filter");
-const foodCards = document.querySelectorAll(".food-card");
-const detailBox = document.getElementById("galleryDetail");
-
-filters.forEach(button => {
-  button.addEventListener("click", () => {
-    filters.forEach(b => b.classList.remove("active"));
-    button.classList.add("active");
-    const type = button.dataset.filter;
-    foodCards.forEach(card => {
-      card.style.display =
-        type === "semua" || card.dataset.type === type ? "" : "none";
-    });
-    detailBox.style.display = "none";
-  });
-});
-
-function showCardDetail(card) {
-  document.getElementById("detailTitle").textContent = card.dataset.title;
-  document.getElementById("detailText").textContent = card.dataset.detail;
-  detailBox.style.display = "block";
-  detailBox.scrollIntoView({behavior:"smooth", block:"nearest"});
-}
-
-foodCards.forEach(card => {
-  card.addEventListener("click", event => {
-    if (event.target.tagName === "BUTTON" || event.target.tagName === "IMG" ||
-        event.target === card) {
-      showCardDetail(card);
-    }
-  });
-  card.addEventListener("keydown", event => {
-    if (event.key === "Enter" || event.key === " ") {
-      event.preventDefault();
-      showCardDetail(card);
-    }
-  });
-});
-
-// KUIS OTOMATIS
-const questions = [
-  {
-    q:"Apa arti halal?",
-    options:["Sesuatu yang diperbolehkan dalam Islam","Sesuatu yang selalu mahal","Sesuatu yang dilarang"],
-    answer:0,
-    explain:"Benar! Halal berarti diperbolehkan menurut ajaran Islam."
-  },
-  {
-    q:"Manakah contoh makanan yang pada dasarnya halal?",
-    options:["Daging babi","Buah apel","Makanan yang mengandung bahan haram"],
-    answer:1,
-    explain:"Betul! Buah apel merupakan contoh makanan halal."
-  },
-  {
-    q:"Apa yang sebaiknya dilakukan jika ragu terhadap bahan makanan?",
-    options:["Langsung memakannya","Mengikuti tebakan teman","Memeriksa label dan bertanya kepada orang dewasa"],
-    answer:2,
-    explain:"Tepat! Periksa informasi produk dan mintalah bantuan jika masih ragu."
-  },
-  {
-    q:"Apa perintah dalam Surah Al-Baqarah ayat 168?",
-    options:["Memilih makanan yang halal dan baik","Membeli semua makanan yang terlihat enak","Tidak perlu memperhatikan makanan"],
-    answer:0,
-    explain:"Benar! Ayat tersebut memerintahkan manusia memakan yang halal dan baik."
-  },
-  {
-    q:"Manakah yang diharamkan dalam Islam?",
-    options:["Jeruk segar","Air putih","Daging babi"],
-    answer:2,
-    explain:"Betul! Daging babi termasuk makanan yang diharamkan."
-  },
-  {
-    q:"Apa yang perlu diperiksa pada makanan kemasan?",
-    options:["Warna bungkus saja","Komposisi, tanggal kedaluwarsa, dan informasi halal","Harga yang paling mahal saja"],
-    answer:1,
-    explain:"Benar! Periksa informasi produk secara teliti."
-  },
-  {
-    q:"Temanmu meminjam pensil. Sikap yang baik adalah ...",
-    options:["Mengambil pensilnya tanpa izin","Meminta izin dan mengembalikannya","Menyembunyikan pensilnya"],
-    answer:1,
-    explain:"Tepat! Meminta izin dan mengembalikan barang adalah sikap bertanggung jawab."
-  },
-  {
-    q:"Apa arti thayyib dalam pelajaran makanan halal dan baik?",
-    options:["Baik dan layak","Selalu berwarna cerah","Harus mahal"],
-    answer:0,
-    explain:"Bagus! Thayyib berarti baik; makanan juga perlu diperhatikan kebersihan dan keamanannya."
-  }
+const missions = [
+ {
+  name:"Desa Penjelajah", emoji:"🏡",
+  image:"https://images.unsplash.com/photo-1490645935967-10de6ba17061?auto=format&fit=crop&w=800&q=80",
+  questions:[
+   {emoji:"🍎",q:"Kamu menemukan buah apel segar. Apa yang kamu ketahui?",d:"Pilih pernyataan yang paling tepat.",a:["Apel pada dasarnya termasuk makanan halal","Semua makanan yang berwarna merah haram","Buah tidak boleh dimakan"],c:0,e:"Benar! Buah apel pada dasarnya halal. Tetap pastikan makanan bersih dan layak dimakan."},
+   {emoji:"📖",q:"Apa arti halal?",d:"Ingat materi yang sudah kamu pelajari.",a:["Dilarang dalam Islam","Diperbolehkan dalam Islam","Harus mahal"],c:1,e:"Tepat! Halal berarti diperbolehkan menurut ajaran Islam."},
+   {emoji:"🌟",q:"Apa perintah dalam Surah Al-Baqarah ayat 168?",d:"Petunjuk: perhatikan makanan yang kita konsumsi.",a:["Makan sebanyak-banyaknya","Memilih makanan halal dan baik","Memilih makanan termahal"],c:1,e:"Hebat! Ayat tersebut mengajarkan manusia memakan yang halal dan baik."}
+  ]
+ },
+ {
+  name:"Pasar Misteri", emoji:"🛒",
+  image:"https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&w=800&q=80",
+  questions:[
+   {emoji:"🏷️",q:"Kamu hendak membeli makanan kemasan. Apa yang perlu dilakukan?",d:"Jangan terburu-buru memilih!",a:["Memilih bungkus paling menarik","Memeriksa komposisi dan informasi halal","Mengabaikan tanggal kedaluwarsa"],c:1,e:"Benar! Periksa komposisi, informasi halal, kondisi kemasan, dan tanggal kedaluwarsa."},
+   {emoji:"❓",q:"Label suatu produk belum jelas dan kamu masih ragu. Apa tindakan terbaik?",d:"Jadilah pembeli yang bijak.",a:["Langsung memakannya","Mengikuti tebakan teman","Memeriksa informasi dan bertanya kepada orang dewasa"],c:2,e:"Tepat! Jangan menebak. Cari informasi tepercaya dan tanyakan jika masih ragu."},
+   {emoji:"🥬",q:"Kamu memilih sayuran untuk dimasak. Sikap yang baik adalah ...",d:"Pilih tindakan yang sehat dan bertanggung jawab.",a:["Memilih sayuran bersih dan mencucinya","Memakan sayuran yang kotor","Membuang semua sayuran"],c:0,e:"Bagus! Pilih bahan yang baik, bersih, dan aman untuk dikonsumsi."}
+  ]
+ },
+ {
+  name:"Hutan Bijak", emoji:"🌳",
+  image:"https://images.unsplash.com/photo-1448375240586-882707db888b?auto=format&fit=crop&w=800&q=80",
+  questions:[
+   {emoji:"🚫",q:"Manakah yang termasuk makanan yang diharamkan dalam Islam?",d:"Ingat contoh dalam materi PAI.",a:["Pisang","Daging babi","Air putih"],c:1,e:"Benar! Daging babi termasuk makanan yang diharamkan dalam Islam."},
+   {emoji:"🤝",q:"Temanmu kehilangan uang. Kamu menemukannya di lantai. Apa yang sebaiknya kamu lakukan?",d:"Gunakan nilai kejujuran.",a:["Menyimpannya diam-diam","Membaginya dengan teman","Menyerahkannya kepada guru agar dikembalikan"],c:2,e:"Hebat! Menyerahkan uang yang ditemukan kepada guru adalah tindakan jujur dan bertanggung jawab."},
+   {emoji:"🥤",q:"Kamu ditawari minuman yang tidak diketahui isinya. Apa pilihan terbaik?",d:"Utamakan keselamatan dan ikuti ajaran Islam.",a:["Meminumnya tanpa bertanya","Menolak dahulu dan bertanya kepada orang dewasa","Menyuruh teman mencobanya"],c:1,e:"Tepat! Jangan mencoba minuman yang tidak diketahui isinya. Tanyakan kepada orang dewasa."}
+  ]
+ }
 ];
 
-let current = 0;
-let score = 0;
-let answered = false;
+let score=0,lives=3,unlocked=0,level=0,qIndex=0,locked=false;
+let completed=[false,false,false];
+let levelStartScore=0;
 
-const questionEl = document.getElementById("question");
-const optionsEl = document.getElementById("options");
-const feedbackEl = document.getElementById("feedback");
-const nextBtn = document.getElementById("nextBtn");
-
-function renderQuestion() {
-  answered = false;
-  const item = questions[current];
-  document.getElementById("questionCount").textContent =
-    `Pertanyaan ${current + 1} dari ${questions.length}`;
-  document.getElementById("progressBar").style.width =
-    `${(current / questions.length) * 100}%`;
-  questionEl.textContent = item.q;
-  optionsEl.innerHTML = "";
-  feedbackEl.textContent = "";
-  nextBtn.style.display = "none";
-
-  item.options.forEach((option, index) => {
-    const button = document.createElement("button");
-    button.className = "option";
-    button.textContent = `${String.fromCharCode(65 + index)}. ${option}`;
-    button.addEventListener("click", () => chooseAnswer(index, button));
-    optionsEl.appendChild(button);
-  });
+function showScreen(id){
+ document.querySelectorAll(".screen").forEach(s=>s.classList.remove("active"));
+ document.getElementById(id).classList.add("active");
+ window.scrollTo({top:0,behavior:"smooth"});
+ updateStats();
 }
-
-function chooseAnswer(index, selectedButton) {
-  if (answered) return;
-  answered = true;
-  const item = questions[current];
-  const allOptions = optionsEl.querySelectorAll("button");
-
-  allOptions.forEach(button => button.disabled = true);
-
-  if (index === item.answer) {
-    score += 10;
-    document.getElementById("score").textContent = score;
-    feedbackEl.textContent = "✅ " + item.explain;
-    feedbackEl.style.color = "#26784d";
-  } else {
-    feedbackEl.textContent = "💡 Belum tepat. " + item.explain;
-    feedbackEl.style.color = "#a24c2e";
+function updateStats(){
+ document.getElementById("totalScore").textContent=score;
+ document.getElementById("lives").textContent=lives;
+ document.getElementById("badgeCount").textContent=completed.filter(Boolean).length;
+ for(let i=0;i<3;i++){
+  const b=document.getElementById("level"+i);
+  b.disabled=i>unlocked;
+  b.classList.toggle("done",completed[i]);
+  b.classList.toggle("current",i===unlocked&&!completed[i]);
+ }
+}
+function startLevel(n){
+ if(n>unlocked)return;
+ level=n;qIndex=0;levelStartScore=score;
+ showScreen("play");renderQuestion();
+}
+function renderQuestion(){
+ locked=false;
+ const m=missions[level],q=m.questions[qIndex];
+ document.getElementById("levelLabel").textContent="📍 "+m.name;
+ document.getElementById("sceneEmoji").textContent=q.emoji;
+ document.getElementById("sceneImage").src=m.image;
+ document.getElementById("sceneImage").alt="Ilustrasi "+m.name;
+ document.getElementById("missionTag").textContent="MISI "+(level+1)+" · TANTANGAN "+(qIndex+1);
+ document.getElementById("prompt").textContent=q.q;
+ document.getElementById("desc").textContent=q.d;
+ document.getElementById("questionNo").textContent=`Tantangan ${qIndex+1}/${m.questions.length}`;
+ document.getElementById("bar").style.width=(qIndex/m.questions.length*100)+"%";
+ document.getElementById("feedback").className="feedback";
+ document.getElementById("feedback").textContent="";
+ document.getElementById("nextBtn").classList.add("hidden");
+ const box=document.getElementById("answers");box.innerHTML="";
+ q.a.forEach((answer,i)=>{
+  const b=document.createElement("button");
+  b.className="answer";
+  b.textContent=["🅰️ ","🅱️ ","🆎 "][i]+answer;
+  b.onclick=()=>choose(i,b);
+  box.appendChild(b);
+ });
+}
+function sound(correct){
+ try{
+  const ctx=new (window.AudioContext||window.webkitAudioContext)();
+  const osc=ctx.createOscillator(),gain=ctx.createGain();
+  osc.connect(gain);gain.connect(ctx.destination);
+  osc.frequency.value=correct?660:220;
+  gain.gain.value=.06;osc.start();
+  osc.stop(ctx.currentTime+.15);
+ }catch(e){}
+}
+function choose(i,button){
+ if(locked)return;
+ locked=true;
+ const q=missions[level].questions[qIndex];
+ const all=[...document.querySelectorAll(".answer")];
+ all.forEach(b=>b.disabled=true);
+ const f=document.getElementById("feedback");
+ if(i===q.c){
+  score+=10;button.classList.add("correct");
+  f.className="feedback show good";
+  f.textContent="⭐ BENAR! +10 poin. "+q.e;
+  document.getElementById("avatar").textContent="🦸";
+  sound(true);
+ }else{
+  lives=Math.max(0,lives-1);button.classList.add("wrong");
+  all[q.c].classList.add("correct");
+  f.className="feedback show bad";
+  f.textContent="💡 Belum tepat. "+q.e+" Hati tersisa: "+lives;
+  document.getElementById("avatar").textContent="🧑‍🚀";
+  sound(false);
+ }
+ updateStats();
+ document.getElementById("bar").style.width=((qIndex+1)/missions[level].questions.length*100)+"%";
+ const next=document.getElementById("nextBtn");
+ next.textContent=qIndex===missions[level].questions.length-1?"Selesaikan Misi 🏆":"Tantangan Berikutnya ➜";
+ next.classList.remove("hidden");
+}
+function nextQuestion(){
+ if(!locked)return;
+ if(lives<=0){showScreen("gameOver");return}
+ if(qIndex<missions[level].questions.length-1){
+  qIndex++;renderQuestion();
+ }else{
+  completed[level]=true;
+  unlocked=Math.max(unlocked,Math.min(2,level+1));
+  updateStats();
+  if(level===2){
+   document.getElementById("rewardEmoji").textContent="🏆";
+   document.getElementById("rewardTitle").textContent="Semua Misi Berhasil!";
+   document.getElementById("rewardText").textContent="Kamu telah menuntaskan petualangan halal dan haram!";
+   document.getElementById("rewardScore").textContent="Total skor: "+score;
+   document.getElementById("rewardBtn").textContent="Lihat Kemenangan 🎉";
+   window.rewardAction="victory";
+  }else{
+   document.getElementById("rewardEmoji").textContent=["🏡","🛒","🌳"][level];
+   document.getElementById("rewardTitle").textContent="Misi Berhasil!";
+   document.getElementById("rewardText").textContent="Kamu menyelesaikan "+missions[level].name+". Jalan selanjutnya telah terbuka!";
+   document.getElementById("rewardScore").textContent="⭐ Poin misi: +"+(score-levelStartScore);
+   document.getElementById("rewardBtn").textContent="Lanjut ke Peta ➜";
+   window.rewardAction="map";
   }
-
-  selectedButton.style.borderColor =
-    index === item.answer ? "#4e9b76" : "#d66a6a";
-  selectedButton.style.background =
-    index === item.answer ? "#e7f6ed" : "#ffedf0";
-
-  allOptions[item.answer].style.borderColor = "#4e9b76";
-  allOptions[item.answer].style.background = "#e7f6ed";
-  nextBtn.textContent =
-    current === questions.length - 1 ? "Lihat Hasil 🏆" : "Pertanyaan Berikutnya ➜";
-  nextBtn.style.display = "inline-block";
+  showScreen("rewardScreen");
+ }
 }
-
-nextBtn.addEventListener("click", () => {
-  if (!answered) return;
-  current++;
-  if (current < questions.length) {
-    renderQuestion();
-  } else {
-    showResult();
-  }
-});
-
-function showResult() {
-  document.getElementById("progressBar").style.width = "100%";
-  document.getElementById("quizContent").style.display = "none";
-  document.getElementById("result").style.display = "block";
-  let message = "";
-
-  if (score === 80) {
-    message = "Luar biasa! Skormu " + score + "/80. Kamu menguasai materi dengan sangat baik! 🌟";
-  } else if (score >= 50) {
-    message = "Bagus! Skormu " + score + "/80. Baca kembali materi yang belum kamu pahami, lalu coba lagi.";
-  } else {
-    message = "Skormu " + score + "/80. Jangan menyerah! Pelajari kembali materinya dan coba lagi. 💪";
-  }
-
-  document.getElementById("resultMessage").textContent = message;
+function continueAfterReward(){
+ if(window.rewardAction==="victory"){
+  document.getElementById("finalScore").textContent=score;
+  document.getElementById("finalRank").textContent=
+   score>=80?"🌟 Gelar: Legenda Halal!":
+   score>=60?"🥇 Gelar: Penjelajah Hebat!":"🌱 Gelar: Penjelajah Pantang Menyerah!";
+  showScreen("victory");
+ }else{
+  showScreen("map");
+ }
 }
-
-function restartQuiz() {
-  current = 0;
-  score = 0;
-  document.getElementById("score").textContent = "0";
-  document.getElementById("quizContent").style.display = "block";
-  document.getElementById("result").style.display = "none";
-  renderQuestion();
+function restartGame(){
+ score=0;lives=3;unlocked=0;level=0;qIndex=0;locked=false;
+ completed=[false,false,false];
+ updateStats();showScreen("home");
 }
-
-renderQuestion();
+updateStats();
 </script>
 </body>
 </html>

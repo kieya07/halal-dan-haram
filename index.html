@@ -6,179 +6,338 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Petualangan Halal-Haram</title>
 <style>
-body{margin:0;font-family:Arial,sans-serif;background:linear-gradient(135deg,#ffe5ec,#e8e1ff,#dff7ff);color:#382b50;text-align:center}
-main{max-width:850px;margin:auto;padding:20px}
-h1{color:#7953a5;font-size:clamp(27px,5vw,42px)}
-.card{background:#fffdf8;padding:24px;border-radius:24px;margin:18px 0;box-shadow:0 7px 0 #ded2f0}
-button{border:0;border-radius:15px;padding:14px;margin:6px;cursor:pointer;font-size:16px;font-weight:bold;background:#e8dcff;color:#382b50}
-button:hover{filter:brightness(.96)}
-.choice{display:block;width:100%;text-align:left;background:#f4efff;border:2px solid #e2d5f8}
-.correct{background:#d8f8d1!important}.wrong{background:#ffdbe4!important}
-.hidden{display:none}.level{display:inline-block;width:40%;min-width:220px;vertical-align:top;padding:16px;box-sizing:border-box;border-radius:18px;margin:5px}
-#feedback{min-height:45px;line-height:1.5;font-weight:bold}
-.story{background:#fff0bd;border-radius:15px;padding:14px;line-height:1.5}
-#music{background:#7953a5;color:white;border-radius:30px}
+:root {
+ --purple:#7953a5;--pink:#ffb3c1;--yellow:#fff0a8;
+ --blue:#bde0fe;--mint:#caffbf;--ink:#342b4b;
+}
+*{box-sizing:border-box}
+body{
+ margin:0;color:var(--ink);font-family:"Trebuchet MS",Arial,sans-serif;
+ background:linear-gradient(135deg,#ffe5ec,#eee5ff,#dff7ff);
+ min-height:100vh;overflow-x:hidden
+}
+header{text-align:center;padding:25px 15px 10px}
+h1{font-size:clamp(27px,5vw,44px);color:var(--purple);margin:8px}
+header p{line-height:1.6}
+main{max-width:1000px;margin:auto;padding:15px}
+.panel{
+ background:#fffdf9;border:3px solid white;border-radius:25px;
+ padding:22px;margin:18px 0;box-shadow:0 8px 0 #ddd0ef;
+}
+h2{margin-top:5px}
+button,input{font:inherit}
+button{
+ border:0;border-radius:15px;padding:13px 17px;margin:5px;
+ font-weight:bold;cursor:pointer;color:var(--ink);
+ background:#e8dcff;transition:transform .2s,filter .2s
+}
+button:hover{transform:translateY(-3px);filter:brightness(.97)}
+button:disabled{opacity:.5;cursor:not-allowed;transform:none}
+.primary{background:var(--purple);color:white}
+.pink{background:#ffe0e6}.yellow{background:#fff3bd}
+.blue{background:#dceaff}.mint{background:#ddf9d8}
+.hidden{display:none!important}
+.stats{display:flex;justify-content:center;gap:8px;flex-wrap:wrap}
+.pill{background:white;border:2px solid #eadcf8;border-radius:30px;padding:10px;font-weight:bold}
+input{padding:12px;border:2px solid #d9c8ee;border-radius:12px;width:min(100%,350px)}
+.levels{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px}
+.level{
+ min-height:150px;border-radius:20px;padding:15px;text-align:center;
+ box-shadow:0 5px 0 #00000010
+}
+.art{font-size:55px;display:block;animation:bob 2s ease-in-out infinite}
+.level:nth-child(2) .art{animation-delay:.3s}
+.level:nth-child(3) .art{animation-delay:.6s}
+@keyframes bob{0%,100%{transform:translateY(0) rotate(-3deg)}50%{transform:translateY(-8px) rotate(3deg)}}
+@keyframes pop{0%{transform:scale(.7);opacity:0}70%{transform:scale(1.08)}100%{transform:scale(1);opacity:1}}
+@keyframes sparkle{0%{transform:translateY(0) rotate(0);opacity:1}100%{transform:translateY(-100px) rotate(200deg);opacity:0}}
+@keyframes rainbow{0%{background-position:0%}100%{background-position:200%}}
+.view{animation:pop .35s ease}
+.question{font-size:clamp(20px,4vw,28px);line-height:1.45}
+.story{background:#fff3bd;padding:15px;border-radius:16px;line-height:1.6}
+.options{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.choice{width:100%;text-align:left;background:#f3edff;border:2px solid #e7dbf7;line-height:1.4}
+.choice.correct{background:#d9f8d5;border-color:#60b86b}
+.choice.wrong{background:#ffdee5;border-color:#ff8fa3}
+.feedback{min-height:48px;line-height:1.5;font-weight:bold;margin:15px 0}
+.progress{height:12px;background:#eee4f8;border-radius:20px;overflow:hidden;margin:15px 0}
+.bar{height:100%;background:linear-gradient(90deg,#ff9db4,#a68aff,#8de5c4);width:0;transition:width .3s}
+.actions{display:flex;gap:7px;flex-wrap:wrap;justify-content:center}
+#leaderboard{overflow-x:auto}
+table{width:100%;border-collapse:collapse;min-width:580px}
+th,td{padding:12px 9px;border-bottom:1px solid #eadff5;text-align:center}
+th{background:#eee4ff}
+tr.me{background:#fff0b8;font-weight:bold}
+tr:first-child td:first-child{font-size:20px}
+.medal{font-size:22px}
+.result{text-align:center}
+.result .big{font-size:65px;animation:bob 1.5s infinite}
+.spark{position:fixed;pointer-events:none;z-index:9;animation:sparkle 1.2s forwards;font-size:25px}
+.note{font-size:13px;color:#756b83;line-height:1.5}
+footer{text-align:center;padding:20px;color:#756b83}
+@media(max-width:600px){
+ .options{grid-template-columns:1fr}
+ .panel{padding:16px}
+ .levels{grid-template-columns:1fr 1fr}
+ .level{min-width:0;padding:10px}
+ .art{font-size:42px}
+}
 </style>
 </head>
 <body>
-<main>
-<h1>🍓 Petualangan Halal–Haram 🥤</h1>
-<p>Jadilah detektif makanan dan minuman halal!</p>
+<header>
+ <div style="font-size:48px">🍉 🥛 🍯 🍓</div>
+ <h1>Petualangan Halal–Haram</h1>
+ <p>Jelajahi dunia makanan dan minuman. Jawab dengan benar, kumpulkan poin, dan jadilah Detektif Halal! 🌈</p>
+</header>
 
-<section class="card">
-<h3>🎵 </h3>
-<p>Tekan tombol untuk memutar atau menghentikan melodi instrumental.</p>
-<button id="music" onclick="toggleMusic()">▶ Putar Musik</button>
+<main>
+<section class="panel">
+ <div class="stats">
+  <div class="pill">⭐ Skor: <span id="score">0</span></div>
+  <div class="pill">✅ Benar: <span id="correctCount">0</span></div>
+  <div class="pill">🧭 Misi: <span id="doneCount">0</span>/4</div>
+  <div class="pill">⏱️ Waktu: <span id="clock">00:00</span></div>
+ </div>
+ <div class="actions" style="margin-top:12px">
+  <button id="musicButton" class="primary" onclick="toggleMusic()">🎵 Putar Musik</button>
+  <button onclick="showBoard()">🏆 Papan Skor</button>
+ </div>
+ <p id="musicStatus" class="note" style="text-align:center">Musik instrumental dibuat langsung oleh game.</p>
 </section>
 
-<section class="card">
-<h3>⭐ Skor: <span id="score">0</span> |
-Petualangan: <span id="done">0</span>/4</h3>
-<div id="menu">
-<h2>Pilih Petualangan</h2>
-<div id="levels"></div>
-</div>
+<section class="panel view" id="home">
+ <h2>👋 Selamat datang, Petualang!</h2>
+ <p>Masukkan nama terlebih dahulu supaya hasil permainanmu bisa masuk ke papan skor.</p>
+ <input id="playerName" maxlength="24" placeholder="Tulis nama pemain..." autocomplete="given-name">
+ <div style="margin:16px 0">
+  <button class="primary" onclick="beginGame()">🚀 Mulai Petualangan</button>
+ </div>
+ <h2>🗺️ Peta Petualangan</h2>
+ <div class="levels">
+  <button class="level pink" onclick="openLevel(0)">
+   <span class="art">🍉</span><b>1. Kebun Camilan</b><br><small>Mengenal makanan halal</small>
+  </button>
+  <button class="level yellow" id="levelBtn1" disabled onclick="openLevel(1)">
+   <span class="art">🥤</span><b>2. Dunia Minuman</b><br><small>Memilih minuman</small>
+  </button>
+  <button class="level blue" id="levelBtn2" disabled onclick="openLevel(2)">
+   <span class="art">🛒</span><b>3. Pasar Pintar</b><br><small>Memeriksa bahan makanan</small>
+  </button>
+  <button class="level mint" id="levelBtn3" disabled onclick="openLevel(3)">
+   <span class="art">🕵️</span><b>4. Detektif Cerita</b><br><small>Menjawab soal cerita</small>
+  </button>
+ </div>
+ <p class="note">Setiap petualangan berisi tepat 3 soal. Setiap jawaban benar bernilai 10 poin.</p>
+</section>
 
-<div id="game" class="hidden">
-<p id="label"></p>
-<p id="number"></p>
-<div id="story" class="story hidden"></div>
-<h2 id="question"></h2>
-<div id="options"></div>
-<p id="feedback"></p>
-<button id="next" onclick="next()" disabled>Soal Berikutnya ➜</button>
-<button onclick="home()">Menu</button>
-</div>
+<section class="panel view hidden" id="quiz">
+ <div style="display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap">
+  <b id="levelTitle"></b><b id="questionNumber"></b>
+ </div>
+ <div class="progress"><div class="bar" id="progressBar"></div></div>
+ <div id="story" class="story hidden"></div>
+ <div style="font-size:58px;text-align:center;margin:12px" id="questionArt">🍓</div>
+ <h2 class="question" id="questionText"></h2>
+ <div class="options" id="options"></div>
+ <div id="feedback" class="feedback" aria-live="polite"></div>
+ <div class="actions">
+  <button class="primary" id="nextButton" disabled onclick="nextQuestion()">Soal Berikutnya ➜</button>
+  <button onclick="goHome()">Menu Utama</button>
+ </div>
+</section>
 
-<div id="result" class="hidden">
-<h2 id="resultTitle"></h2>
-<p id="resultText"></p>
-<button onclick="nextLevel()">Lanjut ➜</button>
-<button onclick="home()">Menu</button>
-</div>
+<section class="panel view hidden" id="levelResult">
+ <div class="result">
+  <div class="big">🎉</div>
+  <h2 id="resultTitle">Petualangan selesai!</h2>
+  <p id="resultText"></p>
+  <div class="actions">
+   <button class="primary" onclick="continueGame()">Lanjutkan ➜</button>
+   <button onclick="showBoard()">🏆 Papan Skor</button>
+  </div>
+ </div>
+</section>
 
-<div id="finish" class="hidden">
-<h2>🏆 Hebat, Semua Misi Selesai!</h2>
-<p id="summary"></p>
-<button onclick="restart()">Main Lagi 🔁</button>
-</div>
+<section class="panel view hidden" id="finish">
+ <div class="result">
+  <div class="big">🏆</div>
+  <h2>Semua Petualangan Selesai!</h2>
+  <p id="finalText"></p>
+  <h2 id="finalBadge"></h2>
+  <div class="actions">
+   <button class="primary" onclick="showBoard()">Lihat Papan Skor</button>
+   <button onclick="restart()">Main Lagi 🔁</button>
+  </div>
+ </div>
+</section>
+
+<section class="panel view hidden" id="board">
+ <h2>🏆 Papan Skor Petualang</h2>
+ <p>Urutan peringkat: jumlah jawaban benar terbanyak, skor tertinggi, lalu waktu selesai tercepat.</p>
+ <div id="leaderboard"></div>
+ <p class="note">Data papan skor disimpan pada browser dan perangkat ini. Untuk papan skor bersama antarsiswa di HP berbeda, diperlukan database/server online.</p>
+ <div class="actions">
+  <button class="primary" onclick="goHome()">Kembali</button>
+  <button onclick="clearBoard()">Hapus Papan Skor</button>
+ </div>
 </section>
 </main>
+<footer>Belajar dengan ceria 💗 Pilih makanan halal dan baik!</footer>
 
 <script>
-const data=[
-{title:"🍉 Kebun Camilan",q:[
-["Manakah makanan yang halal?",["Daging babi","Buah semangka","Darah"],1,"Buah-buahan seperti semangka pada dasarnya halal."],
-["Rani membeli ayam goreng. Apa yang perlu dipastikan?",["Penyembelihan dan pengolahannya sesuai ketentuan halal","Warnanya cerah","Harganya mahal"],0,"Bahan dan cara pengolahan makanan juga perlu diperhatikan."],
-["Makanan halal adalah makanan yang ...",["Selalu mahal","Diperbolehkan menurut syariat","Dari luar negeri"],1,"Halal berarti diperbolehkan menurut syariat Islam."]]},
-{title:"🥤 Dunia Minuman",q:[
-["Minuman manakah yang halal?",["Air putih bersih","Minuman memabukkan","Khamr"],0,"Air putih bersih pada dasarnya halal."],
-["Mengapa khamr dilarang?",["Warnanya gelap","Memabukkan dan dilarang dalam Islam","Rasanya pahit saja"],1,"Khamr dilarang karena memabukkan dan merusak akal."],
-["Dina menemukan minuman tanpa informasi bahan yang jelas. Apa yang sebaiknya dilakukan?",["Langsung minum","Memeriksa komposisi dan kehalalannya","Memilih berdasarkan warna"],1,"Periksa informasi produk sebelum memilihnya."]]},
-{title:"🛒 Pasar Pintar",q:[
-["Makanan diketahui mengandung bahan haram. Bagaimana hukumnya?",["Tetap halal karena enak","Haram jika tidak ada pengecualian syar'i","Halal jika mahal"],1,"Bahan haram tidak menjadi halal hanya karena rasanya enak."],
-["Bimo melihat label halal pada kemasan. Apa tindakan yang tepat?",["Memeriksa informasi produk dengan cermat","Menganggap semua produk lain haram","Memilih dari warna"],0,"Periksa label dan informasi produk dengan cermat."],
-["Mengapa memilih makanan halal dan thayyib itu penting?",["Agar sesuai ajaran Islam dan baik bagi diri","Supaya mengejek teman","Agar terlihat kaya"],0,"Halal dan thayyib berarti diperbolehkan dan baik."]]},
-{title:"🕵️ Detektif Cerita",q:[
-["Saat istirahat, Farah mendapat permen tanpa informasi bahan yang jelas.",["Langsung memakan semuanya","Memeriksa bahan dan kehalalannya dahulu","Membuang bekal teman"],1,"Farah bisa memeriksa informasi produk dengan sopan."],
-["Riko tahu makanan di kantin mengandung bahan haram, tetapi teman-temannya membelinya.",["Ikut agar sama dengan teman","Memilih makanan halal lainnya","Menyembunyikan informasi"],1,"Riko sebaiknya memilih makanan halal dengan santun."],
-["Siti membawa bekal yang sudah dipastikan halal. Temannya berkata halal hanya penting untuk orang dewasa.",["Halal penting bagi umat Islam pada usia berapa pun","Halal hanya penting di sekolah","Semua bekal otomatis halal"],0,"Memilih makanan halal penting untuk umat Islam pada usia berapa pun."]]}
+const adventures=[
+{title:"Kebun Camilan",art:"🍉",questions:[
+{q:"Manakah makanan yang halal?",art:"🍉",opts:["Daging babi","Buah semangka","Darah yang mengalir"],a:1,why:"Buah-buahan seperti semangka pada dasarnya halal."},
+{q:"Rani ingin membeli ayam goreng. Apa yang perlu dipastikan?",art:"🍗",opts:["Bahan dan prosesnya sesuai ketentuan halal","Warnanya paling cerah","Harganya paling mahal"],a:0,why:"Bahan dan proses pengolahan makanan juga perlu diperhatikan."},
+{q:"Makanan halal adalah makanan yang ...",art:"🥗",opts:["Selalu mahal","Diperbolehkan menurut syariat","Harus dari luar negeri"],a:1,why:"Halal berarti diperbolehkan menurut syariat Islam."}]},
+{title:"Dunia Minuman",art:"🥤",questions:[
+{q:"Minuman manakah yang halal?",art:"💧",opts:["Air putih bersih","Minuman memabukkan","Khamr"],a:0,why:"Air putih bersih pada dasarnya halal."},
+{q:"Mengapa khamr dilarang?",art:"🚫",opts:["Karena warnanya gelap","Karena memabukkan dan dilarang dalam Islam","Karena gelasnya mahal"],a:1,why:"Khamr dilarang karena memabukkan dan dapat merusak akal."},
+{q:"Dina menemukan minuman tanpa informasi bahan yang jelas. Apa yang sebaiknya dilakukan?",art:"🧃",opts:["Langsung meminumnya","Memeriksa komposisi dan informasi kehalalannya","Memilih hanya berdasarkan warna"],a:1,why:"Periksa informasi produk sebelum memilihnya."}]},
+{title:"Pasar Pintar",art:"🛒",questions:[
+{q:"Makanan diketahui mengandung bahan haram. Bagaimana hukumnya?",art:"🥩",opts:["Tetap halal karena enak","Haram jika tidak ada pengecualian syar'i","Halal jika mahal"],a:1,why:"Bahan haram tidak menjadi halal hanya karena rasanya enak."},
+{q:"Bimo melihat label halal pada kemasan. Apa tindakan yang tepat?",art:"🔎",opts:["Memeriksa label dan informasi produk","Menganggap semua produk lain haram","Memilih dari warna saja"],a:0,why:"Periksa label dan informasi produk dengan cermat."},
+{q:"Mengapa memilih makanan halal dan thayyib itu penting?",art:"🍱",opts:["Agar sesuai ajaran Islam dan baik bagi diri","Supaya bisa mengejek teman","Agar terlihat kaya"],a:0,why:"Halal dan thayyib berarti diperbolehkan dan baik."}]},
+{title:"Detektif Cerita",art:"🕵️",questions:[
+{story:"Saat istirahat, Farah mendapat permen dari teman. Bungkusnya tidak mencantumkan informasi bahan yang jelas.",q:"Apa pilihan paling bijak bagi Farah?",art:"🍬",opts:["Langsung memakan semuanya","Memeriksa informasi bahan dan kehalalannya dahulu","Mengejek temannya"],a:1,why:"Farah bisa memeriksa informasi produk dengan sopan."},
+{story:"Riko mengetahui makanan di kantin mengandung bahan haram, tetapi teman-temannya tetap membelinya.",q:"Apa yang sebaiknya dilakukan Riko?",art:"🍔",opts:["Ikut membeli agar sama dengan teman","Memilih makanan halal lainnya","Menyembunyikan informasi"],a:1,why:"Riko sebaiknya memilih makanan halal dengan santun."},
+{story:"Siti membawa bekal yang sudah dipastikan halal. Temannya berkata halal hanya penting bagi orang dewasa.",q:"Apa jawaban Siti yang tepat?",art:"🍱",opts:["Halal penting bagi umat Islam pada usia berapa pun","Halal hanya penting di sekolah","Semua makanan otomatis halal jika dari rumah"],a:0,why:"Memilih makanan halal penting bagi umat Islam pada usia berapa pun."}]}
 ];
 
-let level=0,index=0,score=0,done=new Set(),locked=false;
+let player="",level=0,qi=0,score=0,correct=0,completed=new Set();
+let answered=false,startTime=0,elapsed=0,clockTimer=null,finishOrder=0;
 const $=id=>document.getElementById(id);
-function renderMenu(){
- $("levels").innerHTML="";
- data.forEach((d,i)=>{
-  const b=document.createElement("button");
-  b.className="level";
-  b.textContent=d.title+" — 3 soal";
-  b.disabled=i>0&&!done.has(i-1);
-  b.onclick=()=>start(i);
-  $("levels").appendChild(b);
- });
- $("done").textContent=done.size;
- $("score").textContent=score;
+const viewIds=["home","quiz","levelResult","finish","board"];
+function showView(id){viewIds.forEach(v=>$(v).classList.toggle("hidden",v!==id));window.scrollTo({top:0,behavior:"smooth"});}
+function fmtTime(sec){sec=Math.max(0,Math.floor(sec));return String(Math.floor(sec/60)).padStart(2,"0")+":"+String(sec%60).padStart(2,"0");}
+function updateStats(){
+ $("score").textContent=score;$("correctCount").textContent=correct;
+ $("doneCount").textContent=completed.size;
 }
-function show(id){["menu","game","result","finish"].forEach(x=>$(x).classList.add("hidden"));$(id).classList.remove("hidden");}
-function home(){renderMenu();show("menu")}
-function start(i){level=i;index=0;show("game");question()}
-function question(){
- locked=false;
- const q=data[level].q[index];
- $("label").textContent=data[level].title;
- $("number").textContent="Soal "+(index+1)+" dari 3";
- $("question").textContent=q[0];
- $("story").classList.toggle("hidden",level!==3);
- $("story").textContent=level===3?"Baca situasi berikut, lalu pilih tindakan yang paling tepat.": "";
+function beginGame(){
+ player=$("playerName").value.trim();
+ if(!player){alert("Masukkan nama pemain terlebih dahulu ya!");return;}
+ score=0;correct=0;completed=new Set();level=0;qi=0;
+ startTime=Date.now();elapsed=0;
+ clearInterval(clockTimer);
+ clockTimer=setInterval(()=>{$("clock").textContent=fmtTime((Date.now()-startTime)/1000);},1000);
+ updateStats();unlockLevels();openLevel(0);
+}
+function unlockLevels(){
+ [1,2,3].forEach(i=>{$("levelBtn"+i).disabled=!completed.has(i-1);});
+}
+function openLevel(i){
+ if(i>0&&!completed.has(i-1))return;
+ level=i;qi=0;showView("quiz");renderQuestion();
+}
+function renderQuestion(){
+ answered=false;const q=adventures[level].questions[qi];
+ $("levelTitle").textContent=adventures[level].art+" "+adventures[level].title;
+ $("questionNumber").textContent="Soal "+(qi+1)+" dari 3";
+ $("progressBar").style.width=(qi/3*100)+"%";
+ $("questionText").textContent=q.q;$("questionArt").textContent=q.art;
+ $("story").classList.toggle("hidden",!q.story);
+ $("story").textContent=q.story||"";
  $("feedback").textContent="Pilih jawaban yang paling tepat.";
- $("next").disabled=true;
- $("next").textContent=index===2?"Selesaikan Petualangan":"Soal Berikutnya ➜";
+ $("nextButton").disabled=true;
+ $("nextButton").textContent=qi===2?"Selesaikan Petualangan ➜":"Soal Berikutnya ➜";
  $("options").innerHTML="";
- q[1].forEach((o,i)=>{
-  const b=document.createElement("button");
-  b.className="choice";
-  b.textContent=String.fromCharCode(65+i)+". "+o;
-  b.onclick=()=>answer(i,b);
-  $("options").appendChild(b);
+ q.opts.forEach((opt,i)=>{
+  const b=document.createElement("button");b.className="choice";
+  b.textContent=String.fromCharCode(65+i)+". "+opt;
+  b.onclick=()=>answer(i,b);$("options").appendChild(b);
  });
 }
 function answer(i,btn){
- if(locked)return;
- locked=true;
- const q=data[level].q[index];
+ if(answered)return;answered=true;
+ const q=adventures[level].questions[qi];
  [...$("options").children].forEach((b,j)=>{
-  b.disabled=true;
-  if(j===q[2])b.classList.add("correct");
+  b.disabled=true;if(j===q.a)b.classList.add("correct");
  });
- if(i===q[2]){score+=10;$("feedback").textContent="Benar! 🌟 "+q[3]}
- else{btn.classList.add("wrong");$("feedback").textContent="Belum tepat. 💡 "+q[3]}
- $("score").textContent=score;
- $("next").disabled=false;
+ if(i===q.a){
+  score+=10;correct++;$("feedback").textContent="Benar! 🌟 "+q.why;
+  confetti();
+ }else{
+  btn.classList.add("wrong");$("feedback").textContent="Belum tepat. 💡 "+q.why;
+ }
+ $("progressBar").style.width=((qi+1)/3*100)+"%";
+ $("nextButton").disabled=false;updateStats();
 }
-function next(){
- if(!locked)return;
- if(index<2){index++;question();return}
- done.add(level);
- $("resultTitle").textContent=data[level].title+" selesai! 🎉";
- $("resultText").textContent="Kamu menyelesaikan 3 soal. Skor saat ini: "+score;
- show("result");
+function nextQuestion(){
+ if(!answered)return;
+ if(qi<2){qi++;renderQuestion();return;}
+ completed.add(level);unlockLevels();updateStats();
+ $("resultTitle").textContent=adventures[level].title+" selesai! 🎉";
+ $("resultText").textContent="3 soal selesai. Skor total "+score+" poin, jawaban benar "+correct+".";
+ $("nextButton").disabled=true;showView("levelResult");confetti();
 }
-function nextLevel(){
- if(level===3){
-  $("summary").textContent="Kamu menyelesaikan 12 soal dengan "+score+" dari 120 poin!";
-  show("finish");
- }else{start(level+1)}
+function continueGame(){
+ if(level<3){openLevel(level+1);return;}
+ clearInterval(clockTimer);
+ elapsed=Math.floor((Date.now()-startTime)/1000);
+ $("clock").textContent=fmtTime(elapsed);
+ const board=readBoard();
+ const entry={name:player,score,correct,completed:completed.size,seconds:elapsed,finishedAt:Date.now()};
+ entry.order=board.length+1;
+ board.push(entry);writeBoard(board);
+ $("finalText").textContent=player+", kamu menyelesaikan 12 soal dalam "+fmtTime(elapsed)+". Jawaban benar "+correct+" dari 12, dengan skor "+score+"/120.";
+ $("finalBadge").textContent=correct>=10?"🌟 Detektif Halal Teladan!":correct>=7?"🍓 Penjelajah Cerdas!":"🌈 Pejuang Belajar! Terus berlatih!";
+ showView("finish");confetti();
 }
-function restart(){score=0;done=new Set();home()}
+function nextQuestion(){if(!answered)return;if(qi<2){qi++;renderQuestion();return;}completed.add(level);unlockLevels();updateStats();if(level<3){$("resultTitle").textContent=adventures[level].title+" selesai! 🎉";$("resultText").textContent="3 soal selesai. Skor total "+score+" poin, jawaban benar "+correct+".";showView("levelResult");confetti();}else{continueGame();}}
+function goHome(){clearInterval(clockTimer);showView("home");}
+function restart(){$("playerName").value=player;beginGame();}
+function readBoard(){try{return JSON.parse(localStorage.getItem("halalGameBoard")||"[]")}catch(e){return[]}}
+function writeBoard(data){try{localStorage.setItem("halalGameBoard",JSON.stringify(data));}catch(e){alert("Browser tidak mengizinkan penyimpanan papan skor.");}}
+function showBoard(){
+ const board=readBoard().sort((a,b)=>b.correct-a.correct||b.score-a.score||a.seconds-b.seconds);
+ if(!board.length){$("leaderboard").innerHTML="<p>Belum ada pemain menyelesaikan permainan. Jadilah pemain pertama! 🌟</p>";}
+ else{
+  let html="<table><thead><tr><th>Peringkat</th><th>Nama</th><th>Misi</th><th>Benar</th><th>Skor</th><th>Waktu</th></tr></thead><tbody>";
+  board.forEach((p,i)=>{
+   const medal=i===0?"🥇":i===1?"🥈":i===2?"🥉":i+1;
+   html+="<tr"+(p.name===player?" class='me'":"")+"><td>"+medal+"</td><td>"+escapeHTML(p.name)+"</td><td>"+p.completed+"/4</td><td>"+p.correct+"/12</td><td>"+p.score+"</td><td>"+fmtTime(p.seconds)+"</td></tr>";
+  });
+  html+="</tbody></table>";$("leaderboard").innerHTML=html;
+ }
+ showView("board");
+}
+function escapeHTML(s){return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));}
+function clearBoard(){if(confirm("Yakin ingin menghapus semua data papan skor di browser ini?")){localStorage.removeItem("halalGameBoard");showBoard();}}
+function confetti(){
+ const emojis=["⭐","✨","🌟","🍓","🎉"];
+ for(let i=0;i<16;i++){
+  const s=document.createElement("span");s.className="spark";
+  s.textContent=emojis[Math.floor(Math.random()*emojis.length)];
+  s.style.left=Math.random()*95+"vw";s.style.top=(45+Math.random()*45)+"vh";
+  document.body.appendChild(s);setTimeout(()=>s.remove(),1300);
+ }
+}
 
-/* Musik instrumental ceria dibuat langsung oleh browser */
-let ctx=null,playing=false,timer=null,n=0;
-const notes=[523.25,659.25,783.99,659.25,587.33,698.46,880,698.46,523.25,587.33,659.25,523.25,440,523.25,659.25,587.33];
-function tone(freq,time,duration){
- const osc=ctx.createOscillator(),gain=ctx.createGain();
- osc.type="sine";osc.frequency.value=freq;
- gain.gain.setValueAtTime(.0001,time);
- gain.gain.exponentialRampToValueAtTime(.06,time+.025);
- gain.gain.exponentialRampToValueAtTime(.0001,time+duration);
- osc.connect(gain);gain.connect(ctx.destination);
- osc.start(time);osc.stop(time+duration+.03);
+/* Musik instrumental sintetis; tidak memerlukan file audio */
+let ctx=null,playing=false,timer=null,note=0;
+const melody=[523.25,659.25,783.99,659.25,587.33,698.46,880,698.46,523.25,587.33,659.25,523.25,440,523.25,659.25,587.33];
+function tone(freq,t,d){
+ const o=ctx.createOscillator(),g=ctx.createGain();
+ o.type="sine";o.frequency.value=freq;
+ g.gain.setValueAtTime(.0001,t);g.gain.exponentialRampToValueAtTime(.045,t+.03);
+ g.gain.exponentialRampToValueAtTime(.0001,t+d);
+ o.connect(g);g.connect(ctx.destination);o.start(t);o.stop(t+d+.03);
 }
 function musicStep(){
- if(!playing)return;
- const t=ctx.currentTime;
- tone(notes[n%notes.length],t,.3);
- if(n%4===0)tone(notes[n%notes.length]/2,t,.42);
- n++;timer=setTimeout(musicStep,360);
+ if(!playing)return;const t=ctx.currentTime;
+ tone(melody[note%melody.length],t,.3);
+ if(note%4===0)tone(melody[note%melody.length]/2,t,.4);
+ note++;timer=setTimeout(musicStep,370);
 }
 async function toggleMusic(){
  if(!ctx)ctx=new(window.AudioContext||window.webkitAudioContext)();
- if(playing){
-  playing=false;clearTimeout(timer);$("music").textContent="▶ Putar Musik";return;
- }
- await ctx.resume();playing=true;$("music").textContent="⏸ Hentikan Musik";musicStep();
+ if(playing){playing=false;clearTimeout(timer);$("musicButton").textContent="🎵 Putar Musik";$("musicStatus").textContent="Musik dihentikan.";return;}
+ await ctx.resume();playing=true;$("musicButton").textContent="⏸ Hentikan Musik";
+ $("musicStatus").textContent="Musik ceria sedang dimainkan 🎶";musicStep();
 }
-home();
+updateStats();
 </script>
 </body>
 </html>

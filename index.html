@@ -108,16 +108,7 @@ function updateStats(){$("score").textContent=score;$("correctCount").textConten
 function status(id,msg,type=""){$(id).textContent=msg;$(id).className="status "+type;}
 async function connectFirebase(){
  try{
-  if(// For Firebase JS SDK v7.20.0 and later, measurementId is optional
-const firebaseConfig = {
-  apiKey: "AIzaSyCEM57UIL3iZ1nlPHOmqYwBnbdJpR4_6dE",
-  authDomain: "kieya-93756.firebaseapp.com",
-  projectId: "kieya-93756",
-  storageBucket: "kieya-93756.firebasestorage.app",
-  messagingSenderId: "469438789787",
-  appId: "1:469438789787:web:38b457906e2a3a034a2e3e",
-  measurementId: "G-SDZV0YWEHW"
-};)throw Error("Konfigurasi Firebase belum diisi di bagian firebaseConfig.");
+  if(firebaseConfig.apiKey==="ISI_API_KEY"||firebaseConfig.projectId==="ISI_PROJECT_ID")throw Error("Konfigurasi Firebase belum diisi di bagian firebaseConfig.");
   const app=initializeApp(firebaseConfig);auth=getAuth(app);db=getFirestore(app);await signInAnonymously(auth);
   connectionReady=true;$("startGameButton").disabled=false;status("connectionStatus","Terhubung ke database online. Skor akan masuk ke papan skor bersama.","ok");
  }catch(e){connectionReady=false;status("connectionStatus","Belum terhubung: "+e.message,"error");console.error(e);}

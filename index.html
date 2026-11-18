@@ -1,191 +1,85 @@
-
 <!DOCTYPE html>
 <html lang="id">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Petualangan Halal-Haram</title>
 <style>
-:root {
- --purple:#7953a5;--pink:#ffb3c1;--yellow:#fff0a8;
- --blue:#bde0fe;--mint:#caffbf;--ink:#342b4b;
-}
-*{box-sizing:border-box}
-body{
- margin:0;color:var(--ink);font-family:"Trebuchet MS",Arial,sans-serif;
- background:linear-gradient(135deg,#ffe5ec,#eee5ff,#dff7ff);
- min-height:100vh;overflow-x:hidden
-}
-header{text-align:center;padding:25px 15px 10px}
-h1{font-size:clamp(27px,5vw,44px);color:var(--purple);margin:8px}
-header p{line-height:1.6}
-main{max-width:1000px;margin:auto;padding:15px}
-.panel{
- background:#fffdf9;border:3px solid white;border-radius:25px;
- padding:22px;margin:18px 0;box-shadow:0 8px 0 #ddd0ef;
-}
-h2{margin-top:5px}
-button,input{font:inherit}
-button{
- border:0;border-radius:15px;padding:13px 17px;margin:5px;
- font-weight:bold;cursor:pointer;color:var(--ink);
- background:#e8dcff;transition:transform .2s,filter .2s
-}
-button:hover{transform:translateY(-3px);filter:brightness(.97)}
-button:disabled{opacity:.5;cursor:not-allowed;transform:none}
-.primary{background:var(--purple);color:white}
-.pink{background:#ffe0e6}.yellow{background:#fff3bd}
-.blue{background:#dceaff}.mint{background:#ddf9d8}
-.hidden{display:none!important}
-.stats{display:flex;justify-content:center;gap:8px;flex-wrap:wrap}
-.pill{background:white;border:2px solid #eadcf8;border-radius:30px;padding:10px;font-weight:bold}
-input{padding:12px;border:2px solid #d9c8ee;border-radius:12px;width:min(100%,350px)}
-.levels{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px}
-.level{
- min-height:150px;border-radius:20px;padding:15px;text-align:center;
- box-shadow:0 5px 0 #00000010
-}
-.art{font-size:55px;display:block;animation:bob 2s ease-in-out infinite}
-.level:nth-child(2) .art{animation-delay:.3s}
-.level:nth-child(3) .art{animation-delay:.6s}
+:root{--purple:#7953a5;--pink:#ffb3c1;--yellow:#fff0a8;--blue:#bde0fe;--mint:#caffbf;--ink:#342b4b}
+*{box-sizing:border-box}body{margin:0;color:var(--ink);font-family:"Trebuchet MS",Arial,sans-serif;background:linear-gradient(135deg,#ffe5ec,#eee5ff,#dff7ff);min-height:100vh;overflow-x:hidden}
+header{text-align:center;padding:25px 15px 10px}h1{font-size:clamp(27px,5vw,44px);color:var(--purple);margin:8px}header p{line-height:1.6}main{max-width:1000px;margin:auto;padding:15px}
+.panel{background:#fffdf9;border:3px solid white;border-radius:25px;padding:22px;margin:18px 0;box-shadow:0 8px 0 #ddd0ef}h2{margin-top:5px}
+button,input{font:inherit}button{border:0;border-radius:15px;padding:13px 17px;margin:5px;font-weight:bold;cursor:pointer;color:var(--ink);background:#e8dcff;transition:transform .2s,filter .2s}
+button:hover{transform:translateY(-3px);filter:brightness(.97)}button:disabled{opacity:.5;cursor:not-allowed;transform:none}.primary{background:var(--purple);color:white}.pink{background:#ffe0e6}.yellow{background:#fff3bd}.blue{background:#dceaff}.mint{background:#ddf9d8}.hidden{display:none!important}
+.stats{display:flex;justify-content:center;gap:8px;flex-wrap:wrap}.pill{background:white;border:2px solid #eadcf8;border-radius:30px;padding:10px;font-weight:bold}
+input{padding:12px;border:2px solid #d9c8ee;border-radius:12px;width:min(100%,350px)}.levels{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px}
+.level{min-height:150px;border-radius:20px;padding:15px;text-align:center;box-shadow:0 5px 0 #00000010}.art{font-size:55px;display:block;animation:bob 2s ease-in-out infinite}
+.level:nth-child(2) .art{animation-delay:.3s}.level:nth-child(3) .art{animation-delay:.6s}
 @keyframes bob{0%,100%{transform:translateY(0) rotate(-3deg)}50%{transform:translateY(-8px) rotate(3deg)}}
 @keyframes pop{0%{transform:scale(.7);opacity:0}70%{transform:scale(1.08)}100%{transform:scale(1);opacity:1}}
 @keyframes sparkle{0%{transform:translateY(0) rotate(0);opacity:1}100%{transform:translateY(-100px) rotate(200deg);opacity:0}}
-@keyframes rainbow{0%{background-position:0%}100%{background-position:200%}}
-.view{animation:pop .35s ease}
-.question{font-size:clamp(20px,4vw,28px);line-height:1.45}
-.story{background:#fff3bd;padding:15px;border-radius:16px;line-height:1.6}
-.options{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.choice{width:100%;text-align:left;background:#f3edff;border:2px solid #e7dbf7;line-height:1.4}
-.choice.correct{background:#d9f8d5;border-color:#60b86b}
-.choice.wrong{background:#ffdee5;border-color:#ff8fa3}
-.feedback{min-height:48px;line-height:1.5;font-weight:bold;margin:15px 0}
-.progress{height:12px;background:#eee4f8;border-radius:20px;overflow:hidden;margin:15px 0}
-.bar{height:100%;background:linear-gradient(90deg,#ff9db4,#a68aff,#8de5c4);width:0;transition:width .3s}
-.actions{display:flex;gap:7px;flex-wrap:wrap;justify-content:center}
-#leaderboard{overflow-x:auto}
-table{width:100%;border-collapse:collapse;min-width:580px}
-th,td{padding:12px 9px;border-bottom:1px solid #eadff5;text-align:center}
-th{background:#eee4ff}
-tr.me{background:#fff0b8;font-weight:bold}
-tr:first-child td:first-child{font-size:20px}
-.medal{font-size:22px}
-.result{text-align:center}
-.result .big{font-size:65px;animation:bob 1.5s infinite}
+.view{animation:pop .35s ease}.question{font-size:clamp(20px,4vw,28px);line-height:1.45}.story{background:#fff3bd;padding:15px;border-radius:16px;line-height:1.6}
+.options{display:grid;grid-template-columns:1fr 1fr;gap:10px}.choice{width:100%;text-align:left;background:#f3edff;border:2px solid #e7dbf7;line-height:1.4}
+.choice.correct{background:#d9f8d5;border-color:#60b86b}.choice.wrong{background:#ffdee5;border-color:#ff8fa3}.feedback{min-height:48px;line-height:1.5;font-weight:bold;margin:15px 0}
+.progress{height:12px;background:#eee4f8;border-radius:20px;overflow:hidden;margin:15px 0}.bar{height:100%;background:linear-gradient(90deg,#ff9db4,#a68aff,#8de5c4);width:0;transition:width .3s}
+.actions{display:flex;gap:7px;flex-wrap:wrap;justify-content:center}#leaderboard{overflow-x:auto}
+table{width:100%;border-collapse:collapse;min-width:580px}th,td{padding:12px 9px;border-bottom:1px solid #eadff5;text-align:center}th{background:#eee4ff}
+tr.me{background:#fff0b8;font-weight:bold}.note{font-size:13px;color:#756b83;line-height:1.5}footer{text-align:center;padding:20px;color:#756b83}
 .spark{position:fixed;pointer-events:none;z-index:9;animation:sparkle 1.2s forwards;font-size:25px}
-.note{font-size:13px;color:#756b83;line-height:1.5}
-footer{text-align:center;padding:20px;color:#756b83}
-@media(max-width:600px){
- .options{grid-template-columns:1fr}
- .panel{padding:16px}
- .levels{grid-template-columns:1fr 1fr}
- .level{min-width:0;padding:10px}
- .art{font-size:42px}
-}
-</style>
-</head>
+.status{padding:12px;border-radius:12px;background:#f1f5f9;margin:12px 0;line-height:1.5}.status.error{background:#ffe0e6;color:#8b1e35}.status.ok{background:#ddf9d8;color:#245c2a}
+@media(max-width:600px){.options{grid-template-columns:1fr}.panel{padding:16px}.levels{grid-template-columns:1fr 1fr}.level{min-width:0;padding:10px}.art{font-size:42px}}
+</style></head>
 <body>
-<header>
- <div style="font-size:48px">🍉 🥛 🍯 🍓</div>
- <h1>Petualangan Halal–Haram</h1>
- <p>Jelajahi dunia makanan dan minuman. Jawab dengan benar, kumpulkan poin, dan jadilah Detektif Halal! 🌈</p>
-</header>
-
+<header><div style="font-size:48px">🍉 🥛 🍯 🍓</div><h1>Petualangan Halal–Haram</h1>
+<p>Jelajahi dunia makanan dan minuman. Jawab dengan benar, kumpulkan poin, dan jadilah Detektif Halal! 🌈</p></header>
 <main>
-<section class="panel">
- <div class="stats">
-  <div class="pill">⭐ Skor: <span id="score">0</span></div>
-  <div class="pill">✅ Benar: <span id="correctCount">0</span></div>
-  <div class="pill">🧭 Misi: <span id="doneCount">0</span>/4</div>
-  <div class="pill">⏱️ Waktu: <span id="clock">00:00</span></div>
- </div>
- <div class="actions" style="margin-top:12px">
-  <button id="musicButton" class="primary" onclick="toggleMusic()">🎵 Putar Musik</button>
-  <button onclick="showBoard()">🏆 Papan Skor</button>
- </div>
- <p id="musicStatus" class="note" style="text-align:center">Musik instrumental dibuat langsung oleh game.</p>
-</section>
-
-<section class="panel view" id="home">
- <h2>👋 Selamat datang, Petualang!</h2>
- <p>Masukkan nama terlebih dahulu supaya hasil permainanmu bisa masuk ke papan skor.</p>
- <input id="playerName" maxlength="24" placeholder="Tulis nama pemain..." autocomplete="given-name">
- <div style="margin:16px 0">
-  <button class="primary" onclick="beginGame()">🚀 Mulai Petualangan</button>
- </div>
- <h2>🗺️ Peta Petualangan</h2>
- <div class="levels">
-  <button class="level pink" onclick="openLevel(0)">
-   <span class="art">🍉</span><b>1. Kebun Camilan</b><br><small>Mengenal makanan halal</small>
-  </button>
-  <button class="level yellow" id="levelBtn1" disabled onclick="openLevel(1)">
-   <span class="art">🥤</span><b>2. Dunia Minuman</b><br><small>Memilih minuman</small>
-  </button>
-  <button class="level blue" id="levelBtn2" disabled onclick="openLevel(2)">
-   <span class="art">🛒</span><b>3. Pasar Pintar</b><br><small>Memeriksa bahan makanan</small>
-  </button>
-  <button class="level mint" id="levelBtn3" disabled onclick="openLevel(3)">
-   <span class="art">🕵️</span><b>4. Detektif Cerita</b><br><small>Menjawab soal cerita</small>
-  </button>
- </div>
- <p class="note">Setiap petualangan berisi tepat 3 soal. Setiap jawaban benar bernilai 10 poin.</p>
-</section>
-
+<section class="panel"><div class="stats">
+<div class="pill">⭐ Skor: <span id="score">0</span></div><div class="pill">✅ Benar: <span id="correctCount">0</span></div>
+<div class="pill">🧭 Misi: <span id="doneCount">0</span>/4</div><div class="pill">⏱️ Waktu: <span id="clock">00:00</span></div></div>
+<div class="actions" style="margin-top:12px"><button id="musicButton" class="primary" onclick="toggleMusic()">🎵 Putar Musik</button><button onclick="showBoard()">🏆 Papan Skor Semua Pemain</button></div>
+<p id="musicStatus" class="note" style="text-align:center">Musik instrumental dibuat langsung oleh game.</p></section>
+<section class="panel view" id="home"><h2>👋 Selamat datang, Petualang!</h2>
+<p>Masukkan nama terlebih dahulu supaya hasil permainanmu masuk ke papan skor bersama.</p>
+<input id="playerName" maxlength="24" placeholder="Tulis nama pemain..." autocomplete="given-name">
+<div id="connectionStatus" class="status">Menghubungkan ke server skor...</div>
+<div style="margin:16px 0"><button class="primary" id="startGameButton" onclick="beginGame()" disabled>🚀 Mulai Petualangan</button></div>
+<h2>🗺️ Peta Petualangan</h2><div class="levels">
+<button class="level pink" onclick="openLevel(0)"><span class="art">🍉</span><b>1. Kebun Camilan</b><br><small>Mengenal makanan halal</small></button>
+<button class="level yellow" id="levelBtn1" disabled onclick="openLevel(1)"><span class="art">🥤</span><b>2. Dunia Minuman</b><br><small>Memilih minuman</small></button>
+<button class="level blue" id="levelBtn2" disabled onclick="openLevel(2)"><span class="art">🛒</span><b>3. Pasar Pintar</b><br><small>Memeriksa bahan makanan</small></button>
+<button class="level mint" id="levelBtn3" disabled onclick="openLevel(3)"><span class="art">🕵️</span><b>4. Detektif Cerita</b><br><small>Menjawab soal cerita</small></button></div>
+<p class="note">Setiap petualangan berisi 3 soal. Setiap jawaban benar bernilai 10 poin. Skor maksimal 120.</p></section>
 <section class="panel view hidden" id="quiz">
- <div style="display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap">
-  <b id="levelTitle"></b><b id="questionNumber"></b>
- </div>
- <div class="progress"><div class="bar" id="progressBar"></div></div>
- <div id="story" class="story hidden"></div>
- <div style="font-size:58px;text-align:center;margin:12px" id="questionArt">🍓</div>
- <h2 class="question" id="questionText"></h2>
- <div class="options" id="options"></div>
- <div id="feedback" class="feedback" aria-live="polite"></div>
- <div class="actions">
-  <button class="primary" id="nextButton" disabled onclick="nextQuestion()">Soal Berikutnya ➜</button>
-  <button onclick="goHome()">Menu Utama</button>
- </div>
-</section>
+<div style="display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap"><b id="levelTitle"></b><b id="questionNumber"></b></div>
+<div class="progress"><div class="bar" id="progressBar"></div></div><div id="story" class="story hidden"></div>
+<div style="font-size:58px;text-align:center;margin:12px" id="questionArt">🍓</div><h2 class="question" id="questionText"></h2>
+<div class="options" id="options"></div><div id="feedback" class="feedback" aria-live="polite"></div>
+<div class="actions"><button class="primary" id="nextButton" disabled onclick="nextQuestion()">Soal Berikutnya ➜</button><button onclick="goHome()">Menu Utama</button></div></section>
+<section class="panel view hidden" id="levelResult"><div style="text-align:center"><div class="art">🎉</div><h2 id="resultTitle">Petualangan selesai!</h2><p id="resultText"></p>
+<div class="actions"><button class="primary" onclick="continueGame()">Lanjutkan ➜</button><button onclick="showBoard()">🏆 Papan Skor</button></div></div></section>
+<section class="panel view hidden" id="finish"><div style="text-align:center"><div class="art">🏆</div><h2>Semua Petualangan Selesai!</h2><p id="finalText"></p><h2 id="finalBadge"></h2>
+<div id="saveStatus" class="status">Menyimpan skor...</div><div class="actions"><button class="primary" onclick="showBoard()">Lihat Papan Skor Semua Pemain</button><button onclick="restart()">Main Lagi 🔁</button></div></div></section>
+<section class="panel view hidden" id="board"><h2>🏆 Papan Skor Semua Pemain</h2>
+<p>Papan skor ini mengambil nilai dari database online, sehingga hasil pemain dari HP dan komputer berbeda dapat terlihat bersama.</p>
+<div id="boardStatus" class="status">Memuat data...</div><div id="leaderboard"></div>
+<p class="note">Peringkat diurutkan berdasarkan jawaban benar terbanyak, skor tertinggi, lalu waktu tercepat.</p>
+<div class="actions"><button class="primary" onclick="loadBoard()">🔄 Perbarui Papan Skor</button><button onclick="goHome()">Kembali</button></div></section>
+</main><footer>Belajar dengan ceria 💗 Pilih makanan halal dan baik!</footer>
 
-<section class="panel view hidden" id="levelResult">
- <div class="result">
-  <div class="big">🎉</div>
-  <h2 id="resultTitle">Petualangan selesai!</h2>
-  <p id="resultText"></p>
-  <div class="actions">
-   <button class="primary" onclick="continueGame()">Lanjutkan ➜</button>
-   <button onclick="showBoard()">🏆 Papan Skor</button>
-  </div>
- </div>
-</section>
+<script type="module">
+import {initializeApp} from "https://www.gstatic.com/firebasejs/11.10.0/firebase-app.js";
+import {getAuth,signInAnonymously} from "https://www.gstatic.com/firebasejs/11.10.0/firebase-auth.js";
+import {getFirestore,collection,addDoc,getDocs,query,limit,serverTimestamp} from "https://www.gstatic.com/firebasejs/11.10.0/firebase-firestore.js";
 
-<section class="panel view hidden" id="finish">
- <div class="result">
-  <div class="big">🏆</div>
-  <h2>Semua Petualangan Selesai!</h2>
-  <p id="finalText"></p>
-  <h2 id="finalBadge"></h2>
-  <div class="actions">
-   <button class="primary" onclick="showBoard()">Lihat Papan Skor</button>
-   <button onclick="restart()">Main Lagi 🔁</button>
-  </div>
- </div>
-</section>
+/* GANTI nilai contoh di bawah dengan firebaseConfig dari Firebase Console. */
+const firebaseConfig={
+ apiKey:"ISI_API_KEY",
+ authDomain:"ISI_PROJECT_ID.firebaseapp.com",
+ projectId:"ISI_PROJECT_ID",
+ storageBucket:"ISI_PROJECT_ID.firebasestorage.app",
+ messagingSenderId:"ISI_MESSAGING_SENDER_ID",
+ appId:"ISI_APP_ID"
+};
 
-<section class="panel view hidden" id="board">
- <h2>🏆 Papan Skor Petualang</h2>
- <p>Urutan peringkat: jumlah jawaban benar terbanyak, skor tertinggi, lalu waktu selesai tercepat.</p>
- <div id="leaderboard"></div>
- <p class="note">Data papan skor disimpan pada browser dan perangkat ini. Untuk papan skor bersama antarsiswa di HP berbeda, diperlukan database/server online.</p>
- <div class="actions">
-  <button class="primary" onclick="goHome()">Kembali</button>
-  <button onclick="clearBoard()">Hapus Papan Skor</button>
- </div>
-</section>
-</main>
-<footer>Belajar dengan ceria 💗 Pilih makanan halal dan baik!</footer>
-
-<script>
 const adventures=[
 {title:"Kebun Camilan",art:"🍉",questions:[
 {q:"Manakah makanan yang halal?",art:"🍉",opts:["Daging babi","Buah semangka","Darah yang mengalir"],a:1,why:"Buah-buahan seperti semangka pada dasarnya halal."},
@@ -205,139 +99,87 @@ const adventures=[
 {story:"Siti membawa bekal yang sudah dipastikan halal. Temannya berkata halal hanya penting bagi orang dewasa.",q:"Apa jawaban Siti yang tepat?",art:"🍱",opts:["Halal penting bagi umat Islam pada usia berapa pun","Halal hanya penting di sekolah","Semua makanan otomatis halal jika dari rumah"],a:0,why:"Memilih makanan halal penting bagi umat Islam pada usia berapa pun."}]}
 ];
 
-let player="",level=0,qi=0,score=0,correct=0,completed=new Set();
-let answered=false,startTime=0,elapsed=0,clockTimer=null,finishOrder=0;
 const $=id=>document.getElementById(id);
 const viewIds=["home","quiz","levelResult","finish","board"];
+let db,auth,connectionReady=false,player="",level=0,qi=0,score=0,correct=0,completed=new Set(),answered=false,startTime=0,elapsed=0,clockTimer=null,saving=false;
 function showView(id){viewIds.forEach(v=>$(v).classList.toggle("hidden",v!==id));window.scrollTo({top:0,behavior:"smooth"});}
 function fmtTime(sec){sec=Math.max(0,Math.floor(sec));return String(Math.floor(sec/60)).padStart(2,"0")+":"+String(sec%60).padStart(2,"0");}
-function updateStats(){
- $("score").textContent=score;$("correctCount").textContent=correct;
- $("doneCount").textContent=completed.size;
+function updateStats(){$("score").textContent=score;$("correctCount").textContent=correct;$("doneCount").textContent=completed.size;}
+function status(id,msg,type=""){$(id).textContent=msg;$(id).className="status "+type;}
+async function connectFirebase(){
+ try{
+  if(firebaseConfig.apiKey==="ISI_API_KEY"||firebaseConfig.projectId==="ISI_PROJECT_ID")throw Error("Konfigurasi Firebase belum diisi di bagian firebaseConfig.");
+  const app=initializeApp(firebaseConfig);auth=getAuth(app);db=getFirestore(app);await signInAnonymously(auth);
+  connectionReady=true;$("startGameButton").disabled=false;status("connectionStatus","Terhubung ke database online. Skor akan masuk ke papan skor bersama.","ok");
+ }catch(e){connectionReady=false;status("connectionStatus","Belum terhubung: "+e.message,"error");console.error(e);}
 }
 function beginGame(){
- player=$("playerName").value.trim();
- if(!player){alert("Masukkan nama pemain terlebih dahulu ya!");return;}
- score=0;correct=0;completed=new Set();level=0;qi=0;
- startTime=Date.now();elapsed=0;
- clearInterval(clockTimer);
- clockTimer=setInterval(()=>{$("clock").textContent=fmtTime((Date.now()-startTime)/1000);},1000);
- updateStats();unlockLevels();openLevel(0);
+ player=$("playerName").value.trim();if(!player){alert("Masukkan nama pemain terlebih dahulu ya!");return;}
+ if(!connectionReady){alert("Game belum terhubung ke Firebase. Periksa konfigurasi dan pengaturan Firebase.");return;}
+ score=0;correct=0;completed=new Set();level=0;qi=0;startTime=Date.now();elapsed=0;clearInterval(clockTimer);
+ clockTimer=setInterval(()=>$("clock").textContent=fmtTime((Date.now()-startTime)/1000),1000);updateStats();unlockLevels();openLevel(0);
 }
-function unlockLevels(){
- [1,2,3].forEach(i=>{$("levelBtn"+i).disabled=!completed.has(i-1);});
-}
-function openLevel(i){
- if(i>0&&!completed.has(i-1))return;
- level=i;qi=0;showView("quiz");renderQuestion();
-}
+function unlockLevels(){[1,2,3].forEach(i=>$("levelBtn"+i).disabled=!completed.has(i-1));}
+function openLevel(i){if(i>0&&!completed.has(i-1))return;level=i;qi=0;showView("quiz");renderQuestion();}
 function renderQuestion(){
- answered=false;const q=adventures[level].questions[qi];
- $("levelTitle").textContent=adventures[level].art+" "+adventures[level].title;
- $("questionNumber").textContent="Soal "+(qi+1)+" dari 3";
- $("progressBar").style.width=(qi/3*100)+"%";
- $("questionText").textContent=q.q;$("questionArt").textContent=q.art;
- $("story").classList.toggle("hidden",!q.story);
- $("story").textContent=q.story||"";
- $("feedback").textContent="Pilih jawaban yang paling tepat.";
- $("nextButton").disabled=true;
- $("nextButton").textContent=qi===2?"Selesaikan Petualangan ➜":"Soal Berikutnya ➜";
- $("options").innerHTML="";
- q.opts.forEach((opt,i)=>{
-  const b=document.createElement("button");b.className="choice";
-  b.textContent=String.fromCharCode(65+i)+". "+opt;
-  b.onclick=()=>answer(i,b);$("options").appendChild(b);
- });
+ answered=false;const q=adventures[level].questions[qi];$("levelTitle").textContent=adventures[level].art+" "+adventures[level].title;
+ $("questionNumber").textContent="Soal "+(qi+1)+" dari 3";$("progressBar").style.width=(qi/3*100)+"%";
+ $("questionText").textContent=q.q;$("questionArt").textContent=q.art;$("story").classList.toggle("hidden",!q.story);$("story").textContent=q.story||"";
+ $("feedback").textContent="Pilih jawaban yang paling tepat.";$("nextButton").disabled=true;$("nextButton").textContent=qi===2?"Selesaikan Petualangan ➜":"Soal Berikutnya ➜";$("options").innerHTML="";
+ q.opts.forEach((opt,i)=>{const b=document.createElement("button");b.className="choice";b.textContent=String.fromCharCode(65+i)+". "+opt;b.onclick=()=>answer(i,b);$("options").appendChild(b);});
 }
 function answer(i,btn){
- if(answered)return;answered=true;
- const q=adventures[level].questions[qi];
- [...$("options").children].forEach((b,j)=>{
-  b.disabled=true;if(j===q.a)b.classList.add("correct");
- });
- if(i===q.a){
-  score+=10;correct++;$("feedback").textContent="Benar! 🌟 "+q.why;
-  confetti();
- }else{
-  btn.classList.add("wrong");$("feedback").textContent="Belum tepat. 💡 "+q.why;
- }
- $("progressBar").style.width=((qi+1)/3*100)+"%";
- $("nextButton").disabled=false;updateStats();
+ if(answered)return;answered=true;const q=adventures[level].questions[qi];
+ [...$("options").children].forEach((b,j)=>{b.disabled=true;if(j===q.a)b.classList.add("correct");});
+ if(i===q.a){score+=10;correct++;$("feedback").textContent="Benar! 🌟 "+q.why;confetti();}
+ else{btn.classList.add("wrong");$("feedback").textContent="Belum tepat. 💡 "+q.why;}
+ $("progressBar").style.width=((qi+1)/3*100)+"%";$("nextButton").disabled=false;updateStats();
 }
 function nextQuestion(){
  if(!answered)return;
  if(qi<2){qi++;renderQuestion();return;}
  completed.add(level);unlockLevels();updateStats();
- $("resultTitle").textContent=adventures[level].title+" selesai! 🎉";
- $("resultText").textContent="3 soal selesai. Skor total "+score+" poin, jawaban benar "+correct+".";
- $("nextButton").disabled=true;showView("levelResult");confetti();
+ if(level<3){$("resultTitle").textContent=adventures[level].title+" selesai! 🎉";$("resultText").textContent="3 soal selesai. Skor total "+score+" poin, jawaban benar "+correct+".";showView("levelResult");confetti();}
+ else finishGame();
 }
-function continueGame(){
- if(level<3){openLevel(level+1);return;}
- clearInterval(clockTimer);
- elapsed=Math.floor((Date.now()-startTime)/1000);
- $("clock").textContent=fmtTime(elapsed);
- const board=readBoard();
- const entry={name:player,score,correct,completed:completed.size,seconds:elapsed,finishedAt:Date.now()};
- entry.order=board.length+1;
- board.push(entry);writeBoard(board);
+function continueGame(){if(level<3)openLevel(level+1);}
+async function finishGame(){
+ clearInterval(clockTimer);elapsed=Math.floor((Date.now()-startTime)/1000);$("clock").textContent=fmtTime(elapsed);
  $("finalText").textContent=player+", kamu menyelesaikan 12 soal dalam "+fmtTime(elapsed)+". Jawaban benar "+correct+" dari 12, dengan skor "+score+"/120.";
  $("finalBadge").textContent=correct>=10?"🌟 Detektif Halal Teladan!":correct>=7?"🍓 Penjelajah Cerdas!":"🌈 Pejuang Belajar! Terus berlatih!";
- showView("finish");confetti();
+ showView("finish");status("saveStatus","Menyimpan skor ke database online...");await saveScore();
 }
-function nextQuestion(){if(!answered)return;if(qi<2){qi++;renderQuestion();return;}completed.add(level);unlockLevels();updateStats();if(level<3){$("resultTitle").textContent=adventures[level].title+" selesai! 🎉";$("resultText").textContent="3 soal selesai. Skor total "+score+" poin, jawaban benar "+correct+".";showView("levelResult");confetti();}else{continueGame();}}
+async function saveScore(){
+ if(saving)return;saving=true;
+ try{
+  await addDoc(collection(db,"scores"),{playerName:player,score,correct,completed:completed.size,seconds:elapsed,uid:auth.currentUser.uid,createdAt:serverTimestamp()});
+  status("saveStatus","Berhasil! Skor kamu sudah masuk ke papan skor bersama dan dapat dilihat dari perangkat lain.","ok");
+ }catch(e){status("saveStatus","Gagal menyimpan skor: "+e.message+". Periksa Firestore Rules dan koneksi internet.","error");console.error(e);}
+ finally{saving=false;}
+}
+async function loadBoard(){
+ showView("board");status("boardStatus","Mengambil nilai dari database online...");$("leaderboard").innerHTML="";
+ try{
+  const snap=await getDocs(query(collection(db,"scores"),limit(300))),rows=[];snap.forEach(d=>rows.push(d.data()));
+  rows.sort((a,b)=>(b.correct||0)-(a.correct||0)||(b.score||0)-(a.score||0)||(a.seconds||0)-(b.seconds||0));
+  if(!rows.length)$("leaderboard").innerHTML="<p>Belum ada pemain menyelesaikan permainan. Jadilah yang pertama! 🌟</p>";
+  else{
+   let out="<table><thead><tr><th>Peringkat</th><th>Nama</th><th>Misi</th><th>Benar</th><th>Skor</th><th>Waktu</th></tr></thead><tbody>";
+   rows.forEach((p,i)=>{const medal=i===0?"🥇":i===1?"🥈":i===2?"🥉":String(i+1);
+    out+="<tr"+(p.playerName===player?" class='me'":"")+"><td>"+medal+"</td><td>"+escapeHTML(p.playerName||"Pemain")+"</td><td>"+(p.completed??0)+"/4</td><td>"+(p.correct??0)+"/12</td><td>"+(p.score??0)+"</td><td>"+fmtTime(p.seconds??0)+"</td></tr>";});
+   $("leaderboard").innerHTML=out+"</tbody></table>";
+  }
+  status("boardStatus","Berhasil memuat "+rows.length+" hasil permainan dari database.","ok");
+ }catch(e){status("boardStatus","Tidak dapat membaca papan skor: "+e.message+". Pastikan Firestore Rules sudah dipublikasikan.","error");}
+}
+function showBoard(){loadBoard();}
+function escapeHTML(s){return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));}
 function goHome(){clearInterval(clockTimer);showView("home");}
 function restart(){$("playerName").value=player;beginGame();}
-function readBoard(){try{return JSON.parse(localStorage.getItem("halalGameBoard")||"[]")}catch(e){return[]}}
-function writeBoard(data){try{localStorage.setItem("halalGameBoard",JSON.stringify(data));}catch(e){alert("Browser tidak mengizinkan penyimpanan papan skor.");}}
-function showBoard(){
- const board=readBoard().sort((a,b)=>b.correct-a.correct||b.score-a.score||a.seconds-b.seconds);
- if(!board.length){$("leaderboard").innerHTML="<p>Belum ada pemain menyelesaikan permainan. Jadilah pemain pertama! 🌟</p>";}
- else{
-  let html="<table><thead><tr><th>Peringkat</th><th>Nama</th><th>Misi</th><th>Benar</th><th>Skor</th><th>Waktu</th></tr></thead><tbody>";
-  board.forEach((p,i)=>{
-   const medal=i===0?"🥇":i===1?"🥈":i===2?"🥉":i+1;
-   html+="<tr"+(p.name===player?" class='me'":"")+"><td>"+medal+"</td><td>"+escapeHTML(p.name)+"</td><td>"+p.completed+"/4</td><td>"+p.correct+"/12</td><td>"+p.score+"</td><td>"+fmtTime(p.seconds)+"</td></tr>";
-  });
-  html+="</tbody></table>";$("leaderboard").innerHTML=html;
- }
- showView("board");
-}
-function escapeHTML(s){return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));}
-function clearBoard(){if(confirm("Yakin ingin menghapus semua data papan skor di browser ini?")){localStorage.removeItem("halalGameBoard");showBoard();}}
-function confetti(){
- const emojis=["⭐","✨","🌟","🍓","🎉"];
- for(let i=0;i<16;i++){
-  const s=document.createElement("span");s.className="spark";
-  s.textContent=emojis[Math.floor(Math.random()*emojis.length)];
-  s.style.left=Math.random()*95+"vw";s.style.top=(45+Math.random()*45)+"vh";
-  document.body.appendChild(s);setTimeout(()=>s.remove(),1300);
- }
-}
-
-/* Musik instrumental sintetis; tidak memerlukan file audio */
-let ctx=null,playing=false,timer=null,note=0;
-const melody=[523.25,659.25,783.99,659.25,587.33,698.46,880,698.46,523.25,587.33,659.25,523.25,440,523.25,659.25,587.33];
-function tone(freq,t,d){
- const o=ctx.createOscillator(),g=ctx.createGain();
- o.type="sine";o.frequency.value=freq;
- g.gain.setValueAtTime(.0001,t);g.gain.exponentialRampToValueAtTime(.045,t+.03);
- g.gain.exponentialRampToValueAtTime(.0001,t+d);
- o.connect(g);g.connect(ctx.destination);o.start(t);o.stop(t+d+.03);
-}
-function musicStep(){
- if(!playing)return;const t=ctx.currentTime;
- tone(melody[note%melody.length],t,.3);
- if(note%4===0)tone(melody[note%melody.length]/2,t,.4);
- note++;timer=setTimeout(musicStep,370);
-}
-async function toggleMusic(){
- if(!ctx)ctx=new(window.AudioContext||window.webkitAudioContext)();
- if(playing){playing=false;clearTimeout(timer);$("musicButton").textContent="🎵 Putar Musik";$("musicStatus").textContent="Musik dihentikan.";return;}
- await ctx.resume();playing=true;$("musicButton").textContent="⏸ Hentikan Musik";
- $("musicStatus").textContent="Musik ceria sedang dimainkan 🎶";musicStep();
-}
-updateStats();
-</script>
-</body>
-</html>
+function confetti(){const emojis=["⭐","✨","🌟","🍓","🎉"];for(let i=0;i<16;i++){const s=document.createElement("span");s.className="spark";s.textContent=emojis[Math.floor(Math.random()*emojis.length)];s.style.left=Math.random()*95+"vw";s.style.top=(45+Math.random()*45)+"vh";document.body.appendChild(s);setTimeout(()=>s.remove(),1300);}}
+let ctx=null,playing=false,timer=null,note=0;const melody=[523.25,659.25,783.99,659.25,587.33,698.46,880,698.46,523.25,587.33,659.25,523.25,440,523.25,659.25,587.33];
+function tone(freq,t,d){const o=ctx.createOscillator(),g=ctx.createGain();o.type="sine";o.frequency.value=freq;g.gain.setValueAtTime(.0001,t);g.gain.exponentialRampToValueAtTime(.045,t+.03);g.gain.exponentialRampToValueAtTime(.0001,t+d);o.connect(g);g.connect(ctx.destination);o.start(t);o.stop(t+d+.03);}
+function musicStep(){if(!playing)return;const t=ctx.currentTime;tone(melody[note%melody.length],t,.3);if(note%4===0)tone(melody[note%melody.length]/2,t,.4);note++;timer=setTimeout(musicStep,370);}
+async function toggleMusic(){if(!ctx)ctx=new(window.AudioContext||window.webkitAudioContext)();if(playing){playing=false;clearTimeout(timer);$("musicButton").textContent="🎵 Putar Musik";$("musicStatus").textContent="Musik dihentikan.";return;}await ctx.resume();playing=true;$("musicButton").textContent="⏸ Hentikan Musik";$("musicStatus").textContent="Musik ceria sedang dimainkan 🎶";musicStep();}
+updateStats();connectFirebase();
+</script></body></html>

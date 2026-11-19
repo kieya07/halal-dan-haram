@@ -181,5 +181,19 @@ let ctx=null,playing=false,timer=null,note=0;const melody=[523.25,659.25,783.99,
 function tone(freq,t,d){const o=ctx.createOscillator(),g=ctx.createGain();o.type="sine";o.frequency.value=freq;g.gain.setValueAtTime(.0001,t);g.gain.exponentialRampToValueAtTime(.045,t+.03);g.gain.exponentialRampToValueAtTime(.0001,t+d);o.connect(g);g.connect(ctx.destination);o.start(t);o.stop(t+d+.03);}
 function musicStep(){if(!playing)return;const t=ctx.currentTime;tone(melody[note%melody.length],t,.3);if(note%4===0)tone(melody[note%melody.length]/2,t,.4);note++;timer=setTimeout(musicStep,370);}
 async function toggleMusic(){if(!ctx)ctx=new(window.AudioContext||window.webkitAudioContext)();if(playing){playing=false;clearTimeout(timer);$("musicButton").textContent="🎵 Putar Musik";$("musicStatus").textContent="Musik dihentikan.";return;}await ctx.resume();playing=true;$("musicButton").textContent="⏸ Hentikan Musik";$("musicStatus").textContent="Musik ceria sedang dimainkan 🎶";musicStep();}
-updateStats();connectFirebase();
+// Membuat fungsi yang dipanggil oleh atribut onclick di HTML tersedia secara global.
+Object.assign(window, {
+  toggleMusic,
+  showBoard,
+  beginGame,
+  openLevel,
+  nextQuestion,
+  continueGame,
+  goHome,
+  restart,
+  loadBoard
+});
+
+updateStats();
+connectFirebase();
 </script></body></html>
